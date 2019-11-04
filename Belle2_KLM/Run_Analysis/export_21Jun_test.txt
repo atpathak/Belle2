@@ -1,0 +1,25 @@
+"Message ID";"Date";"Subject";"JSTTime";"Author";"Type";"Category";"Exp number";"Run number";"Num events";"Run time [min]";"Solenoid";"Subdetectors";"DQM plots";"Text"
+12797;Sat  22 Jun 2019 00:45:05 +0000;"run number 2909";"2019/06/22 03:51 JST";"fmu984";"New Run";"Luminosity Run";"8";"2909";"23753932";"5:53:47";"ON";"PXD | SVD | CDC | TOP | ARICH | ECL | KLM | TRG";"0";"Run was started at 2019/06/22 03:51 JST
+Run was stopped at 2019/06/22 09:45 JST
+Experiment: 8
+Runnumber: 2909
+Run type: Luminosity Run
+Trigger type: gdl
+HLT Script: beam_reco_filter
+
+HV state: PEAK
+Subsystems in PEAK: CDC BKLM SVD TOP ARICH PXD 
+Subsystems masked: 
+
+HER/LER current at the start: 268.7449 / 268.4481 mA
+Number of HER/LER bunches: 1576.0 / 1576.0
+Luminosity at start [10^30 /cm^2/sec]: 2017.05678723
+Rate (Trig. output) at start [Hz]: 1091.0
+Solenoid: ON (1.5 T, 4094 A)
+Total events: 23753932
+Integrated Luminosity [10^33 /cm^2]: 44786.5214432
+
+Stopped because of: request from BCG (SKB go to beam studies)"
+12794;Fri  21 Jun 2019 18:43:28 +0000;"run number 2908";"2019/06/22 03:43 JST";"fmu984";"New Run";"Luminosity Run";"8";"2908";"-99";"0:00:11";"ON";"PXD | SVD | CDC | TOP | ARICH | ECL | KLM | TRG";"0";"Run was started at 2019/06/22 03:43 JST
+Run was stopped at 2019/06/22 03:43 JST
+Experiment: 8

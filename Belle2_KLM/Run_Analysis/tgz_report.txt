@@ -1,0 +1,157 @@
+-rw-r--r--    1 atpathak b2_belle2 2077144 Jul  1 03:26 r00849.tgz
+-rw-r--r--    1 atpathak b2_belle2  744003 Jul  1 03:26 r00848.tgz
+-rw-r--r--    1 atpathak b2_belle2  743603 Jul  1 03:26 r00847.tgz
+-rw-r--r--    1 atpathak b2_belle2  742708 Jul  1 03:27 r00846.tgz
+-rw-r--r--    1 atpathak b2_belle2  734830 Jul  1 03:27 r00845.tgz
+-rw-r--r--    1 atpathak b2_belle2  733718 Jul  1 03:27 r00843.tgz
+-rw-r--r--    1 atpathak b2_belle2  727544 Jul  1 03:28 r00840.tgz
+-rw-r--r--    1 atpathak b2_belle2  736877 Jul  1 03:28 r00839.tgz
+-rw-r--r--    1 atpathak b2_belle2  733645 Jul  1 03:28 r00838.tgz
+-rw-r--r--    1 atpathak b2_belle2  731983 Jul  1 03:29 r00836.tgz
+-rw-r--r--    1 atpathak b2_belle2  738453 Jul  1 03:29 r01038.tgz
+-rw-r--r--    1 atpathak b2_belle2 2056933 Jul  1 03:29 r01037.tgz
+-rw-r--r--    1 atpathak b2_belle2  731365 Jul  1 03:30 r01036.tgz
+-rw-r--r--    1 atpathak b2_belle2  730557 Jul  1 03:30 r01031.tgz
+-rw-r--r--    1 atpathak b2_belle2  747570 Jul  1 03:30 r01030.tgz
+-rw-r--r--    1 atpathak b2_belle2  740017 Jul  1 03:31 r01029.tgz
+-rw-r--r--    1 atpathak b2_belle2  740710 Jul  1 03:31 r01027.tgz
+-rw-r--r--    1 atpathak b2_belle2  741157 Jul  1 03:31 r01026.tgz
+-rw-r--r--    1 atpathak b2_belle2  736294 Jul  1 03:32 r01025.tgz
+-rw-r--r--    1 atpathak b2_belle2  730842 Jul  1 03:32 r01020.tgz
+-rw-r--r--    1 atpathak b2_belle2 2056875 Jul  1 03:32 r01010.tgz
+-rw-r--r--    1 atpathak b2_belle2  732907 Jul  1 03:33 r01008.tgz
+-rw-r--r--    1 atpathak b2_belle2  737559 Jul  1 03:33 r01006.tgz
+-rw-r--r--    1 atpathak b2_belle2  722259 Jul  1 03:33 r01005.tgz
+-rw-r--r--    1 atpathak b2_belle2  734683 Jul  1 03:34 r01001.tgz
+-rw-r--r--    1 atpathak b2_belle2  726470 Jul  1 03:34 r01070.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 03:34 r01068.tgz
+-rw-r--r--    1 atpathak b2_belle2    3113 Jul  1 03:35 r01065.tgz
+-rw-r--r--    1 atpathak b2_belle2 1321098 Jul  1 03:35 r01064.tgz
+-rw-r--r--    1 atpathak b2_belle2 2051637 Jul  1 03:36 r01061.tgz
+-rw-r--r--    1 atpathak b2_belle2    3113 Jul  1 03:36 r01060.tgz
+-rw-r--r--    1 atpathak b2_belle2    3113 Jul  1 03:36 r01059.tgz
+-rw-r--r--    1 atpathak b2_belle2    3114 Jul  1 03:36 r01058.tgz
+-rw-r--r--    1 atpathak b2_belle2    3113 Jul  1 03:37 r01055.tgz
+-rw-r--r--    1 atpathak b2_belle2  735861 Jul  1 03:37 r01054.tgz
+-rw-r--r--    1 atpathak b2_belle2  734187 Jul  1 03:37 r01053.tgz
+-rw-r--r--    1 atpathak b2_belle2  739968 Jul  1 03:38 r01050.tgz
+-rw-r--r--    1 atpathak b2_belle2  729300 Jul  1 03:38 r01039.tgz
+-rw-r--r--    1 atpathak b2_belle2  716695 Jul  1 03:38 r01150.tgz
+-rw-r--r--    1 atpathak b2_belle2  720632 Jul  1 03:39 r01145.tgz
+-rw-r--r--    1 atpathak b2_belle2  715326 Jul  1 03:39 r01144.tgz
+-rw-r--r--    1 atpathak b2_belle2 2044351 Jul  1 03:39 r01143.tgz
+-rw-r--r--    1 atpathak b2_belle2  720071 Jul  1 03:40 r01137.tgz
+-rw-r--r--    1 atpathak b2_belle2  726314 Jul  1 03:40 r01136.tgz
+-rw-r--r--    1 atpathak b2_belle2  728640 Jul  1 03:40 r01135.tgz
+-rw-r--r--    1 atpathak b2_belle2  721426 Jul  1 03:41 r01131.tgz
+-rw-r--r--    1 atpathak b2_belle2  731874 Jul  1 03:41 r01126.tgz
+-rw-r--r--    1 atpathak b2_belle2  726162 Jul  1 03:41 r01123.tgz
+-rw-r--r--    1 atpathak b2_belle2  720431 Jul  1 03:42 r01122.tgz
+-rw-r--r--    1 atpathak b2_belle2 2026564 Jul  1 03:42 r01109.tgz
+-rw-r--r--    1 atpathak b2_belle2  720538 Jul  1 03:42 r01105.tgz
+-rw-r--r--    1 atpathak b2_belle2  718952 Jul  1 03:43 r01104.tgz
+-rw-r--r--    1 atpathak b2_belle2  718519 Jul  1 03:43 r01103.tgz
+-rw-r--r--    1 atpathak b2_belle2  720411 Jul  1 03:43 r01096.tgz
+-rw-r--r--    1 atpathak b2_belle2 2053794 Jul  1 03:44 r01094.tgz
+-rw-r--r--    1 atpathak b2_belle2 2063618 Jul  1 03:44 r01093.tgz
+-rw-r--r--    1 atpathak b2_belle2 2049898 Jul  1 03:44 r01092.tgz
+-rw-r--r--    1 atpathak b2_belle2    3116 Jul  1 03:45 r01217.tgz
+-rw-r--r--    1 atpathak b2_belle2  711460 Jul  1 03:45 r01216.tgz
+-rw-r--r--    1 atpathak b2_belle2  712239 Jul  1 03:45 r01215.tgz
+-rw-r--r--    1 atpathak b2_belle2    3117 Jul  1 03:46 r01213.tgz
+-rw-r--r--    1 atpathak b2_belle2  708760 Jul  1 03:46 r01212.tgz
+-rw-r--r--    1 atpathak b2_belle2  708493 Jul  1 03:46 r01208.tgz
+-rw-r--r--    1 atpathak b2_belle2  713513 Jul  1 03:47 r01207.tgz
+-rw-r--r--    1 atpathak b2_belle2  722825 Jul  1 03:47 r01204.tgz
+-rw-r--r--    1 atpathak b2_belle2  721218 Jul  1 03:47 r01202.tgz
+-rw-r--r--    1 atpathak b2_belle2  713246 Jul  1 03:47 r01201.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 03:48 r01175.tgz
+-rw-r--r--    1 atpathak b2_belle2  719476 Jul  1 03:48 r01174.tgz
+-rw-r--r--    1 atpathak b2_belle2 2034117 Jul  1 03:48 r01172.tgz
+-rw-r--r--    1 atpathak b2_belle2 2051801 Jul  1 03:49 r01171.tgz
+-rw-r--r--    1 atpathak b2_belle2  720687 Jul  1 03:49 r01170.tgz
+-rw-r--r--    1 atpathak b2_belle2  723785 Jul  1 03:49 r01168.tgz
+-rw-r--r--    1 atpathak b2_belle2 2035520 Jul  1 03:50 r01165.tgz
+-rw-r--r--    1 atpathak b2_belle2    3114 Jul  1 03:50 r01163.tgz
+-rw-r--r--    1 atpathak b2_belle2 2033287 Jul  1 03:50 r01161.tgz
+-rw-r--r--    1 atpathak b2_belle2  721051 Jul  1 03:51 r01158.tgz
+-rw-r--r--    1 atpathak b2_belle2  710890 Jul  1 03:51 r01287.tgz
+-rw-r--r--    1 atpathak b2_belle2  721519 Jul  1 03:51 r01275.tgz
+-rw-r--r--    1 atpathak b2_belle2 2025389 Jul  1 03:52 r01266.tgz
+-rw-r--r--    1 atpathak b2_belle2  714828 Jul  1 03:52 r01265.tgz
+-rw-r--r--    1 atpathak b2_belle2  712719 Jul  1 03:52 r01263.tgz
+-rw-r--r--    1 atpathak b2_belle2 2039875 Jul  1 03:53 r01262.tgz
+-rw-r--r--    1 atpathak b2_belle2 2044831 Jul  1 03:53 r01248.tgz
+-rw-r--r--    1 atpathak b2_belle2  716459 Jul  1 03:53 r01242.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 03:54 r01240.tgz
+-rw-r--r--    1 atpathak b2_belle2  718473 Jul  1 03:54 r01239.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 03:54 r01238.tgz
+-rw-r--r--    1 atpathak b2_belle2  716300 Jul  1 03:55 r01237.tgz
+-rw-r--r--    1 atpathak b2_belle2 2041789 Jul  1 03:55 r01235.tgz
+-rw-r--r--    1 atpathak b2_belle2  715297 Jul  1 03:55 r01233.tgz
+-rw-r--r--    1 atpathak b2_belle2  719121 Jul  1 03:55 r01230.tgz
+-rw-r--r--    1 atpathak b2_belle2 2052087 Jul  1 03:56 r01229.tgz
+-rw-r--r--    1 atpathak b2_belle2 2041167 Jul  1 03:56 r01228.tgz
+-rw-r--r--    1 atpathak b2_belle2  715346 Jul  1 03:57 r01226.tgz
+-rw-r--r--    1 atpathak b2_belle2  708217 Jul  1 03:57 r01221.tgz
+-rw-r--r--    1 atpathak b2_belle2 2056743 Jul  1 03:57 r01324.tgz
+-rw-r--r--    1 atpathak b2_belle2 2049069 Jul  1 03:58 r01323.tgz
+-rw-r--r--    1 atpathak b2_belle2 2047626 Jul  1 03:58 r01322.tgz
+-rw-r--r--    1 atpathak b2_belle2 2062677 Jul  1 03:58 r01316.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 03:59 r01315.tgz
+-rw-r--r--    1 atpathak b2_belle2    3116 Jul  1 03:59 r01309.tgz
+-rw-r--r--    1 atpathak b2_belle2  715846 Jul  1 03:59 r01308.tgz
+-rw-r--r--    1 atpathak b2_belle2    3116 Jul  1 03:59 r01307.tgz
+-rw-r--r--    1 atpathak b2_belle2  717113 Jul  1 04:00 r01306.tgz
+-rw-r--r--    1 atpathak b2_belle2    3116 Jul  1 04:00 r01296.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 04:00 r01295.tgz
+-rw-r--r--    1 atpathak b2_belle2  716225 Jul  1 04:01 r01293.tgz
+-rw-r--r--    1 atpathak b2_belle2  713647 Jul  1 04:01 r01292.tgz
+-rw-r--r--    1 atpathak b2_belle2    3117 Jul  1 04:01 r01291.tgz
+-rw-r--r--    1 atpathak b2_belle2    3115 Jul  1 04:02 r01289.tgz
+-rw-r--r--    1 atpathak b2_belle2    3116 Jul  1 04:02 r01288.tgz
+-rw-r--r--    1 atpathak b2_belle2 2053707 Jul  1 04:02 r01336.tgz
+-rw-r--r--    1 atpathak b2_belle2 2055918 Jul  1 04:03 r01335.tgz
+-rw-r--r--    1 atpathak b2_belle2 2050916 Jul  1 04:03 r01334.tgz
+-rw-r--r--    1 atpathak b2_belle2 2052942 Jul  1 04:03 r01333.tgz
+-rw-r--r--    1 atpathak b2_belle2 2037666 Jul  1 04:04 r01332.tgz
+-rw-r--r--    1 atpathak b2_belle2 2052382 Jul  1 04:04 r01331.tgz
+-rw-r--r--    1 atpathak b2_belle2 2057209 Jul  1 04:04 r01329.tgz
+-rw-r--r--    1 atpathak b2_belle2 2065022 Jul  1 04:05 r01328.tgz
+-rw-r--r--    1 atpathak b2_belle2 2042554 Jul  1 04:05 r01327.tgz
+-rw-r--r--    1 atpathak b2_belle2 2055183 Jul  1 04:05 r01325.tgz
+-rw-r--r--    1 atpathak b2_belle2 2070745 Jul  1 04:06 r01419.tgz
+-rw-r--r--    1 atpathak b2_belle2 2046431 Jul  1 04:06 r01418.tgz
+-rw-r--r--    1 atpathak b2_belle2 2051781 Jul  1 04:06 r01541.tgz
+-rw-r--r--    1 atpathak b2_belle2 2073250 Jul  1 04:07 r01540.tgz
+-rw-r--r--    1 atpathak b2_belle2 2058943 Jul  1 04:07 r01539.tgz
+-rw-r--r--    1 atpathak b2_belle2 2079412 Jul  1 04:07 r01538.tgz
+-rw-r--r--    1 atpathak b2_belle2 2074370 Jul  1 04:08 r01534.tgz
+-rw-r--r--    1 atpathak b2_belle2 2072121 Jul  1 04:08 r01529.tgz
+-rw-r--r--    1 atpathak b2_belle2 2070902 Jul  1 04:09 r01528.tgz
+-rw-r--r--    1 atpathak b2_belle2 2073652 Jul  1 04:09 r01527.tgz
+-rw-r--r--    1 atpathak b2_belle2 2044204 Jul  1 04:09 r01526.tgz
+-rw-r--r--    1 atpathak b2_belle2 2039861 Jul  1 04:10 r01525.tgz
+-rw-r--r--    1 atpathak b2_belle2 2039541 Jul  1 04:10 r01524.tgz
+drwxr-xr-x 1025 atpathak b2_belle2   45056 Jul  1 04:10 .
+-rw-r--r--    1 atpathak b2_belle2 2045137 Jul  1 04:11 r01519.tgz
+
+
+
+0363
+0367
+1242
+1123
+1163
+1168
+1233
+1174
+1175
+1204
+1212
+1216
+1217
+1170
+1228
+1287
+1315
