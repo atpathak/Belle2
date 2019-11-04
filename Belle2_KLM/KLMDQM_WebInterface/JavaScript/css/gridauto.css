@@ -1,0 +1,70 @@
+.wrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	grid-gap: 10px;
+	grid-auto-rows: minmax(300px, auto);
+}
+.canvas01 {
+	width: 380px;
+	height: 340px;
+}
+.canvas02 {
+	width: 380px;
+	height: 340px;
+}
+.canvas03 {
+	width: 380px;
+	height: 340px;
+}
+.canvas04 {
+	width: 380px;
+	height: 340px;
+}
+.canvas05 {
+	width: 380px;
+	height: 340px;
+}
+.canvas06 {
+	width: 380px;
+	height: 340px;
+}
+.canvas07 {
+	width: 380px;
+	height: 340px;
+}
+.canvas08 {
+	width: 380px;
+	height: 340px;
+}
+.canvas09 {
+	width: 380px;
+	height: 340px;
+}
+.canvas10 {
+	width: 380px;
+	height: 340px;
+}
+.canvas11 {
+	width: 380px;
+	height: 340px;
+}
+.canvas12 {
+	width: 380px;
+	height: 340px;
+}
+.canvas13 {
+	width: 380px;
+	height: 340px;
+}
+.canvas14 {
+	width: 380px;
+	height: 340px;
+}
+.canvas15 {
+	width: 380px;
+	height: 340px;
+}
+.canvas16 {
+	width: 380px;
+	height: 340px;
+}

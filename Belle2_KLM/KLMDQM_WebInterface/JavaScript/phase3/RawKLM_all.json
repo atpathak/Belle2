@@ -1,0 +1,12 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["RawKLM/RawKLMnodeID","canvas01"],
+	["RawKLM/NRawKLM","canvas02"],
+	["RawKLM/NDigit","canvas03"],
+	["RawKLM/NHit1d","canvas04"],
+	["RawKLM/NHit2d","canvas05"],
+	["RawKLM/NDigitEKLM","canvas06"],
+	["RawKLM/NHit2dEKLM","canvas07"]
+  ]
+}

@@ -1,0 +1,139 @@
+<html>
+	<!--button class="openbtn" id="test" style="margin-left: 0px;" onclick="openNav()"> &#9776;</button-->
+	<style>
+    	body {
+        	background: white }
+	.sidebar {
+ 		height: 100%;
+  		width: 0;
+  		position: fixed;
+  		z-index: 1;
+  		top: 0;
+  		left:0;
+  		background-color: #111;
+  		overflow-x: hidden;
+  		transition: 0.5s;
+  		padding-top: 60px;
+	}
+	.w3-sidebar a {
+  		transition: 0.3s;
+	}
+
+	.w3-sidebar a:hover {
+  		color: #f1f1f1;
+	}
+	.w3-sidebar .closebtn {
+  		position: absolute;
+  		top: 0;
+  		right: 25px;
+  		font-size: 36px;
+  		margin-left: 50px;
+	}
+	.openbtn {
+  		font-size: 30px;
+  		background-color: black;
+  		color: white;
+  		padding: 10px 15px;
+  		border: none;
+	}
+	.openbtn:hover {
+  		background-color: #00000;
+		cursor: pointer;
+	}
+	#wrapper {
+ 		transition: margin-left .5s;
+  		padding: 16px;
+	}
+	@media screen and (max-height: 450px) {
+ 		.w3-sidebar {padding-top: 15px;}
+  		.w3-sidebar a {font-size: 18px;}
+	}
+	@media screen and (min-width: 601px) {
+  		div.w3-sidebar {
+    		width: 250px;
+		font-size: 15px;
+  		}
+		div.wrapper {
+		margin-left: 250px;
+		}
+		section {
+                background: black;
+                color: white;
+                border-radius: 3em;
+                padding: 1em;
+                position: absolute;
+                font-size: 30px;
+                top: 50%;
+                left: 55%;
+                margin-right: -50%;
+                transform: translate(-50%, -50%) }
+	}
+	@media screen and (max-width: 1204px) {
+                div.w3-sidebar {
+                width: 450px;
+                font-size: 30px;
+                }
+		div.wrapper {
+		margin-left: 450px;
+		}
+		section {
+                background: black;
+                color: white;
+                border-radius: 3em;
+                padding: 1em;
+                position: absolute;
+                font-size: 30px;
+                top: 50%;
+                left: 70%;
+                margin-right: -20%;
+                transform: translate(-50%, -50%) }
+        }
+  	</style>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>ExpressReco DQM Display for Past Runs</title>
+		<link rel="stylesheet" href="../css/w3.css">
+		<script type="text/javascript" src="../jsrootsys/scripts/JSRootCore.js"></script>
+		<script type="text/javascript" src="../js/old_dqm_pastrun.js"></script>
+		<script type='text/javascript'>
+			page_initialize("");
+			build_menu('/klm/phase3/index_reco.json');
+		</script>
+	</head>
+
+	<body>
+		<!--div id="menu" class="w3-sidebar w3-light-grey w3-animate-left"  style="width: 0px; margin-top: -90px; "-->
+		<!--div id="menu" class="w3-sidebar w3-light-grey w3-animate-left"  style="width: 0px; margin-top: 0px; "-->
+		<div id="menu" class="w3-sidebar w3-light-grey w3-animate-left"  style="margin-top: 0px; ">
+		<!--a href="javascript:void(0)" class="closebtn" onclick="closeNav()"> &times </a-->
+		</div>
+
+		<div class="wrapper" id="wrapper" style="margin-right: 0px; overflow: auto;">
+		<!--button class="w3-button w3-white w3-xxlarge" onclick="w3_open()">&#9776;</button-->
+		<!--button class="openbtn" onclick="openNav()">☰ </button-->
+		<section> <p id = "demo"> </section>
+		<!--section> <p id = "demo" class="openbtn" onclick="openNav()"> </section-->
+		</div>
+	<script>
+	filename=JSROOT.GetUrlOption("rootfile");
+	runno = filename.replace('#','').split('/').reverse()[0].split('.')[0].split('r')[1];
+	while (runno[0]=='0') {
+		runno = runno.substring(1,runno.length);
+	}
+	console.log(runno)
+	document.getElementById("demo").innerHTML = "<u>DQM Display for run " +runno+" </u>";
+	function openNav(){
+		document.getElementById("menu").style.width = "250px";
+		//document.getElementById("test").style.marginLeft = "250px";	
+		document.getElementById("wrapper").style.marginLeft = "250px";	
+	} 
+	function closeNav() {
+  		document.getElementById("menu").style.width = "0";
+		//document.getElementById("wrapper").style.marginLeft= "0";
+		document.getElementById("test").style.marginLeft= "0";		
+	}
+	</script> 
+	</body>
+
+</html>

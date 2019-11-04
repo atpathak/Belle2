@@ -1,0 +1,174 @@
+.wrapper {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 10px;
+	grid-auto-rows: minmax(400px, auto);
+}
+.canvas01 {
+	grid-column: 1;
+	grid-row: 1;
+	width: 800px;
+	height: 480px;
+}
+.canvas02 {
+	grid-column: 2;
+	grid-row: 1;
+	width: 800px;
+	height: 480px;
+}
+.canvas03 {
+	grid-column: 3;
+	grid-row: 1;
+	width: 800px;
+	height: 480px;
+}
+.canvas04 {
+	grid-column: 4;
+	grid-row: 1;
+	width: 800px;
+	height: 480px;
+}
+.canvas05 {
+	grid-column: 1;
+	grid-row: 2;
+	width: 800px;
+	height: 480px;
+}
+.canvas06 {
+	grid-column: 2;
+	grid-row: 2;
+	width: 800px;
+	height: 480px;
+}
+.canvas07 {
+	grid-column: 3;
+	grid-row: 2;
+	width: 800px;
+	height: 480px;
+}
+.canvas08 {
+	grid-column: 4;
+	grid-row: 2;
+	width: 800px;
+	height: 480px;
+}
+.canvas09 {
+	grid-column: 1;
+	grid-row: 3;
+	width: 800px;
+	height: 480px;
+}
+.canvas10 {
+	grid-column: 2;
+	grid-row: 3;
+	width: 800px;
+	height: 480px;
+}
+.canvas11 {
+	grid-column: 3;
+	grid-row: 3;
+	width: 800px;
+	height: 480px;
+}
+.canvas12 {
+	grid-column: 4;
+	grid-row: 3;
+	width: 800px;
+	height: 480px;
+}
+.canvas13 {
+	grid-column: 1;
+	grid-row: 4;
+	width: 800px;
+	height: 480px;
+}
+.canvas14 {
+	grid-column: 2;
+	grid-row: 4;
+	width: 800px;
+	height: 480px;
+}
+.canvas15 {
+	grid-column: 3;
+	grid-row: 4;
+	width: 800px;
+	height: 480px;
+}
+.canvas16 {
+	grid-column: 4;
+	grid-row: 4;
+	width: 800px;
+	height: 480px;
+}
+.canvas17 {
+	grid-column: 1;
+	grid-row: 5;
+	width: 800px;
+	height: 480px;
+}
+.canvas18 {
+	grid-column: 2;
+	grid-row: 5;
+	width: 800px;
+	height: 480px;
+}
+.canvas19 {
+	grid-column: 3;
+	grid-row: 5;
+	width: 800px;
+	height: 480px;
+}
+.canvas20 {
+	grid-column: 4;
+	grid-row: 5;
+	width: 800px;
+	height: 480px;
+}
+.canvas21 {
+	grid-column: 1;
+	grid-row: 6;
+	width: 800px;
+	height: 480px;
+}
+.canvas22 {
+	grid-column: 2;
+	grid-row: 6;
+	width: 800px;
+	height: 480px;
+}
+.canvas23 {
+	grid-column: 3;
+	grid-row: 6;
+	width: 800px;
+	height: 480px;
+}
+.canvas24 {
+	grid-column: 4;
+	grid-row: 6;
+	width: 800px;
+	height: 480px;
+}
+.canvas25 {
+	grid-column: 1;
+	grid-row: 7;
+	width: 800px;
+	height: 480px;
+}
+.canvas26 {
+	grid-column: 2;
+	grid-row: 7;
+	width: 800px;
+	height: 480px;
+}
+.canvas27 {
+	grid-column: 3;
+	grid-row: 7;
+	width: 800px;
+	height: 480px;
+}
+.canvas28 {
+	grid-column: 4;
+	grid-row: 7;
+	width: 800px;
+	height: 480px;
+}

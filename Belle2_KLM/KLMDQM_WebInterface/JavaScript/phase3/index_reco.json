@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "items": [
+        {
+          "jsonfile": "klm/phase3/RawKLM_all.json", 
+          "title": "RawKLMs (Barrel & Endcap)"
+        },
+	{
+          "jsonfile": "klm/phase3/SectorOccupancy_BKLM.json",
+          "title": "Sector occupancy (Barrel)"
+        },
+	{
+          "jsonfile": "klm/phase3/SectorOccupancy_EKLM.json",
+          "title": "Sector occupancy (Endcap)"
+        },
+	{
+          "jsonfile": "klm/phase3/LayerOccupancy_EKLM.json",
+          "title": "Layer occupancy (Endcap)"
+        },
+	{
+          "jsonfile": "klm/phase3/RPCTime_BKLM.json",
+          "title": "RPC time (Barrel)"
+        },
+	{
+          "jsonfile": "klm/phase3/ScintTime_BKLM.json",
+          "title": "Scint time (Barrel)"
+        },
+	{
+          "jsonfile": "klm/phase3/TimeDist_EKLM.json",
+          "title": "Time distribution (Endcap)"
+        },
+	{
+          "jsonfile": "klm/phase3/Zhit_BKLM.json",
+          "title": "z hits by sector (Barrel)"
+        },
+	{
+          "jsonfile": "klm/phase3/Phihit_BKLM.json",
+          "title": "phi hits by sector (Barrel)"
+        },
+	{
+          "jsonfile": "klm/phase3/XYOccupancy_BKLM.json",
+          "title": "x/y view (Barrel)"
+        },
+	{
+          "jsonfile": "klm/phase3/XYOccupancy_EKLM_forward.json",
+          "title": "x/y view (Forward Endcap)"
+        },
+	{
+          "jsonfile": "klm/phase3/XYOccupancy_EKLM_backward.json",
+          "title": "x/y view (Backward Endcap)"
+        }
+      ], 
+      "dir": "KLM DQM"
+     }
+  ],
+  "title": "ExpressReco DQM Display for Past Runs"
+}

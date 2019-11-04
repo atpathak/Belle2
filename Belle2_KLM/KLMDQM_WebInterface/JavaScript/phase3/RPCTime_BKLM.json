@@ -1,0 +1,8 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["RPCTime/mappedRPCTime","canvas01"],
+	["RPCTime/mappedRPCTimeCal","canvas02"],
+	["RPCTime/mappedRPCTimeBySector","canvas03"]
+  ]
+}

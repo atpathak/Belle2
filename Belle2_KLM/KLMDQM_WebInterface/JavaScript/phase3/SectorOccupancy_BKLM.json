@@ -1,0 +1,9 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["SectorOccupancy/mappedRPCSectorOccupancy","canvas01"],
+	["SectorOccupancy/unmappedRPCSectorOccupancy","canvas02"],
+	["SectorOccupancy/mappedScintSectorOccupancy","canvas03"],
+	["SectorOccupancy/unmappedScintSectorOccupancy","canvas04"]
+  ]
+}

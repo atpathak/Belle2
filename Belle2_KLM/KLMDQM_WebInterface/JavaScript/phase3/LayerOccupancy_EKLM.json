@@ -1,0 +1,7 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["LayerOccupancy/EKLMLayeroccupancyBackward","canvas01"],
+	["LayerOccupancy/EKLMLayeroccupancyForward","canvas02"]
+  ]
+}

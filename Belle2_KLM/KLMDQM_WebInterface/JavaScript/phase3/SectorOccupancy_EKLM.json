@@ -1,0 +1,7 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["SectorOccupancy/EKLMBackwardSectorOccupancy","canvas01"],
+	["SectorOccupancy/EKLMForwardSectorOccupancy","canvas02"]
+  ]
+}

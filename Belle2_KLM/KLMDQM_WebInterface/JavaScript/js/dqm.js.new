@@ -1,0 +1,115 @@
+function draw_histo(name,id,copt,hopt,tprefix) {
+	JSROOT.NewHttpRequest(name, 'object', function(obj) {
+		if (!obj) {
+			document.getElementById(id).innerHTML="<h3>Can not get " + name + "</h3>";
+			return;
+		}
+		//if (copt=="logy")
+		//obj.fLogy=1;
+		if (hopt!="") {
+			obj.fPrimitives.arr[1].fOption=hopt;
+		}
+		obj.fPrimitives.arr[1].fTitle=tprefix+obj.fPrimitives.arr[1].fTitle;
+		JSROOT.redraw(id, obj,copt);
+	}).send();
+}
+
+function update_info() {
+	JSROOT.NewHttpRequest('/DQMInfo/c_info/root.json', 'object', function(obj) {
+		document.getElementById("info").innerHTML="<h5>"+obj.fTitle+"</h5>";
+			}).send();
+}
+
+function update_histos(inputs) {
+	prefix='/';
+	suffix='/root.json';
+	ilen=inputs.length;
+	for (i=0;i<ilen;i++) {
+		if (inputs[i].length<3)
+			draw_histo(prefix+inputs[i][0]+suffix,inputs[i][1],"","","");
+		else if (inputs[i].length==3)
+			draw_histo(prefix+inputs[i][0]+suffix,inputs[i][1],inputs[i][2],"","");
+		else if (inputs[i].length==4)
+			draw_histo(prefix+inputs[i][0]+suffix,inputs[i][1],inputs[i][2],inputs[i][3],"");
+		else if (inputs[i].length==5)
+			draw_histo(prefix+inputs[i][0]+suffix,inputs[i][1],inputs[i][2],inputs[i][3],inputs[i][4]+": ");
+	}
+	update_info();
+}
+
+function parse_json(obj) {
+	var cssfile=obj.cssfile;
+	var histos=obj.histos;
+	var fileref=document.createElement("link");
+	fileref.setAttribute("rel", "stylesheet");
+	fileref.setAttribute("type", "text/css");
+	fileref.setAttribute("href", "css/"+cssfile);
+	document.getElementsByTagName("head")[0].appendChild(fileref);
+	for (j in histos) {
+		document.getElementById("wrapper").innerHTML += "<div class=" + histos[j][1] + " id=" + histos[j][1] + "></div>\n";
+	}
+	update_histos(histos);
+	setInterval(function() { update_histos(histos); }, 20000);
+}
+
+function page_load() {
+	var jsonfile=JSROOT.GetUrlOption("jsonfile");
+	if (jsonfile==null) return;
+	JSROOT.NewHttpRequest(jsonfile,'object',function(obj) {
+		if (!obj) {
+			return;
+		}
+		parse_json(obj);
+	}).send();
+}
+
+function update_dir(dirname,cssfile,limit,prefix) {
+	JSROOT.NewHttpRequest('/'+dirname+'/root.json','object',function(dir) {
+		if (!dir) {
+			return;
+		}
+		var list_of_obj=dir.fFolders.arr;
+		var n=list_of_obj.length;
+
+		var fileref=document.createElement("link");
+		fileref.setAttribute("rel", "stylesheet");
+		fileref.setAttribute("type", "text/css");
+		fileref.setAttribute("href", "css/"+cssfile);
+		document.getElementsByTagName("head")[0].appendChild(fileref);
+
+		var count=0;
+		var histos=[];
+		for (var i=0; i<n; i++) {
+			var obj=list_of_obj[i];
+			var name=obj.fName;
+			if (prefix!=null && name.match(new RegExp('^'+prefix)) == null) continue;
+			var canvas="canvas";
+			if (count+1<10) canvas+=('0'+(count+1).toString());
+			else canvas+=(count+1).toString();
+			document.getElementById("wrapper").innerHTML += "<div class=" + canvas + " id=" + canvas + "></div>\n";
+			histos.push([dirname+'/'+name,canvas]);
+			count+=1;
+			if (count==limit) break;
+		}
+		update_histos(histos);
+		setInterval(function() { update_histos(histos); }, 20000);
+	}).send();
+}
+
+function dir_load() {
+	var dirname=JSROOT.GetUrlOption("directory");
+	var cssfile=JSROOT.GetUrlOption("layout");
+	var limit=JSROOT.GetUrlOption("limit");
+	var prefix=JSROOT.GetUrlOption("prefix");
+	if (cssfile==null) cssfile="grid3x4.css";
+	if (limit==null) limit=12;
+
+	update_dir(dirname,cssfile,limit,prefix);
+}
+
+function make_index() {
+	var jsonfile=JSROOT.GetUrlOption("jsonfile");
+	if (jsonfile==null) return;
+	var item=(jsonfile.split('/')[1]).split('.')[0];
+	document.getElementById(item).classList.add('w3-black');
+}

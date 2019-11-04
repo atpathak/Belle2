@@ -1,0 +1,7 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["BKLMXYOccupancy/occupancyBackwardXYPromptBkgd","canvas01"],
+	["BKLMXYOccupancy/occupancyForwardXYPromptBkgd","canvas02"]
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["PhiHit/PlanePhiStripBB0","canvas01"],
+	["PhiHit/PlanePhiStripBB1","canvas02"],
+	["PhiHit/PlanePhiStripBB2","canvas03"],
+	["PhiHit/PlanePhiStripBB3","canvas04"],
+	["PhiHit/PlanePhiStripBB4","canvas05"],
+	["PhiHit/PlanePhiStripBB5","canvas06"],
+	["PhiHit/PlanePhiStripBB6","canvas07"],
+	["PhiHit/PlanePhiStripBB7","canvas08"],
+	["PhiHit/PlanePhiStripBF0","canvas09"],
+        ["PhiHit/PlanePhiStripBF1","canvas10"],
+        ["PhiHit/PlanePhiStripBF2","canvas11"],
+        ["PhiHit/PlanePhiStripBF3","canvas12"],
+        ["PhiHit/PlanePhiStripBF4","canvas13"],
+        ["PhiHit/PlanePhiStripBF5","canvas14"],
+        ["PhiHit/PlanePhiStripBF6","canvas15"],
+        ["PhiHit/PlanePhiStripBF7","canvas16"]
+  ]
+}

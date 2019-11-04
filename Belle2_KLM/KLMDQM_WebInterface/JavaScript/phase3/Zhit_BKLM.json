@@ -1,0 +1,21 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["ZHit/PlaneZStripBB0","canvas01"],
+	["ZHit/PlaneZStripBB1","canvas02"],
+	["ZHit/PlaneZStripBB2","canvas03"],
+	["ZHit/PlaneZStripBB3","canvas04"],
+	["ZHit/PlaneZStripBB4","canvas05"],
+	["ZHit/PlaneZStripBB5","canvas06"],
+	["ZHit/PlaneZStripBB6","canvas07"],
+	["ZHit/PlaneZStripBB7","canvas08"],
+	["ZHit/PlaneZStripBF0","canvas09"],
+        ["ZHit/PlaneZStripBF1","canvas10"],
+        ["ZHit/PlaneZStripBF2","canvas11"],
+        ["ZHit/PlaneZStripBF3","canvas12"],
+        ["ZHit/PlaneZStripBF4","canvas13"],
+        ["ZHit/PlaneZStripBF5","canvas14"],
+        ["ZHit/PlaneZStripBF6","canvas15"],
+        ["ZHit/PlaneZStripBF7","canvas16"]
+  ]
+}

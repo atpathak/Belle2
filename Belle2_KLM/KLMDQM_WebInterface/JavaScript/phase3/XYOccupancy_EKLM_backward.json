@@ -1,0 +1,17 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["EKLMXYOccupancy/occupancyBackwardXY_L01","canvas01"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L02","canvas02"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L03","canvas03"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L04","canvas04"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L05","canvas05"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L06","canvas06"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L07","canvas07"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L08","canvas08"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L09","canvas09"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L10","canvas10"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L11","canvas11"],
+	["EKLMXYOccupancy/occupancyBackwardXY_L12","canvas12"]
+  ]
+}

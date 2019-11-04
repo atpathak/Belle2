@@ -1,0 +1,30 @@
+{
+  "name": "jsroot",
+  "version": "5.4.1",
+  "description": "JavaScript ROOT",
+  "homepage": "https://root.cern/js/",
+  "main": "./scripts/JSRootCore.js",
+  "contributors": [
+    {
+      "name": "Bertrand Bellenot",
+      "email": "bertrand.bellenot@cern.ch"
+    },
+    {
+      "name": "Sergey Linev",
+      "email": "s.linev@gsi.de"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jsdom": "< 10.0.0",
+    "xhr2": "*",
+    "mathjax-node": "*" 
+  },
+  "repository" : { "type" : "git" , "url" : "https://github.com/root-project/jsroot.git" },
+  "files": [
+    "scripts/*",
+    "openui5/*",
+    "style/*",
+    "/LICENSE"
+   ]
+}

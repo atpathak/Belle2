@@ -1,0 +1,50 @@
+<!--html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ExpressReco DQM Display for Past Runs</title>
+</head>
+<body>
+Run 3123 <a href="./r03123/klmHists-e0008r03123.root">Download</a> <a href="../jsrootsys/index.htm?file=../test/r03123/klmHists-e0008r03123.root&opt=colz">RawFile</a> <a href="show_plot.htm?rootfile=r03123/klmHists-e0008r03123.root">Display</a></br>
+</body></html-->
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- MUST have, so iPhone doesn't autozoom and change the fontsize! -->
+  <script type="text/javascript">
+  var devicewidth = window.screen.width;
+  var deviceheight = window.screen.height;
+  var devicemin = Math.min(devicewidth, deviceheight);
+  // say we want base font size: 16px @ 600px (min of 800x600); 16/600 = 0.0266667
+  var basefontsize = Math.round(0.0567*devicemin);
+  // apply:
+  var rootElement = document.documentElement;
+  rootElement.style.fontSize = basefontsize;
+  // report:
+  console.log(navigator.userAgent);
+  // var report = "device res: " + devicewidth + " x " + deviceheight + " ; base font size: " + basefontsize + "/" + rootElement.style.fontSize;
+  console.log(report);
+  function reporter() {
+    document.getElementById("dreport").innerHTML = report + "/" + document.documentElement.style.fontSize + " ... " + navigator.userAgent;
+  }
+  window.onload = reporter;
+  </script>
+  <style type="text/css">
+body {
+  -webkit-text-size-adjust: none;
+}
+#dreport {
+  font-size: 0.76em;
+}
+  </style>
+</head>
+
+<body>
+  <div id="dreport">
+  Run 3123 <a href="./r03123/klmHists-e0008r03123.root">Download</a> <a href="../jsrootsys/index.htm?file=../test/r03123/klmHists-e0008r03123.root&opt=colz">RawFile</a> <a href="show_plot.htm?rootfile=r03123/klmHists-e0008r03123.root">Display</a></br>
+  </div>
+
+</body>
+</html>
+

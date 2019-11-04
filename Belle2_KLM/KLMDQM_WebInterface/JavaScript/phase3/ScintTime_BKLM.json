@@ -1,0 +1,8 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["ScintTime/mappedScintCtime","canvas01"],
+	["ScintTime/mappedScintCtime0","canvas02"],
+	["ScintTime/mappedScintCtimeBySector","canvas03"]
+  ]
+}

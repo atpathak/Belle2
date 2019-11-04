@@ -1,0 +1,6 @@
+{
+  "cssfile": "gridauto.css", 
+  "histos": [
+	["TimeDistribution/EKLMtime","canvas01"]
+  ]
+}
