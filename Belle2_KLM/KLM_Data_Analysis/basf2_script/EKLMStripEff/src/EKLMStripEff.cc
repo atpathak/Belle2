@@ -1,0 +1,367 @@
+#include <eklm/dataobjects/EKLMDigit.h>
+#include <eklm/dataobjects/EKLMHit2d.h>
+#include <eklm/dataobjects/EKLMAlignmentHit.h>
+#include <mdst/dataobjects/Track.h>
+#include <eklm/geometry/GeometryData.h>
+#include <eklm/geometry/TransformData.h>
+#include <eklm/modules/EKLMStripEff/EKLMStripEff.h>
+#include <framework/database/DBObjPtr.h>
+#include <framework/logging/Logger.h>
+#include <framework/gearbox/Unit.h>
+#include <framework/datastore/RelationIndex.h>
+#include <framework/datastore/RelationVector.h>
+
+#include "TMath.h"
+#include "TCanvas.h"
+#include "TBox.h"
+
+#include "TColor.h"
+#include "TStyle.h"
+#include "TLatex.h"
+
+
+using namespace Belle2;
+
+REG_MODULE(EKLMStripEff)
+
+EKLMStripEffModule::EKLMStripEffModule() : Module(), m_eventCounter(0),
+  m_cLayer(nullptr), m_cLayerEff(nullptr), m_cLayerEff2(nullptr), m_hHitsPerLayer_trk(nullptr), HitsPerEvent1D(nullptr),
+  HitsPerEvent2D(nullptr), HitsPerEventPerLayer1D(nullptr), m_hOccupancy1D(nullptr), m_eff2DFound(nullptr), HitsRelTime(nullptr),
+  m_eff2DExpected(nullptr), m_strips(nullptr), m_stripsEff(nullptr), m_file(nullptr), m_stripHits(nullptr), m_stripHitsEff(nullptr), m_GeoDat(nullptr)
+{
+  setDescription("Get efficiency and plots for EKLM");
+  //addParam("filename", m_filename, "Output root filename", std::string("EKLMEff.root"));
+  addParam("filename", m_outputRootName, "Output root filename", std::string("eklmOccupancymap"));
+}
+
+EKLMStripEffModule::~EKLMStripEffModule()
+{
+
+}
+
+void EKLMStripEffModule::initialize()
+{
+  StoreObjPtr<EventMetaData> eventMetaData("EventMetaData", DataStore::c_Event);
+  m_runNumber = eventMetaData->getRun();
+
+  TString runNumberTString(toString(m_runNumber).c_str());
+
+  TString outputRootNameTString(m_outputRootName);
+  outputRootNameTString += "_run" + runNumberTString + ".root";
+
+  //m_file = new TFile(m_filename.c_str(), "recreate");
+  m_file = new TFile(outputRootNameTString, "RECREATE");
+
+  B2INFO("EKLMStripEff:: the output file '" << outputRootNameTString.Data() << "' will be created for run " << m_runNumber);
+  
+  digits.isRequired();
+  hit2ds.isRequired();
+  digits.registerRelationTo(m_DigitEventInfos);
+  
+  m_eventCounter = 0;
+  m_ElementNumbers = &(EKLM::ElementNumbersSingleton::Instance());
+  m_GeoDat = &(EKLM::GeometryData::Instance());
+  m_cLayer = new TCanvas*** [2];
+  m_cLayerEff = new TCanvas*** [2];
+  m_cLayerEff2 = new TCanvas** [2];
+
+  m_eff2DFound = new TH2D**[2];
+  m_eff2DExpected = new TH2D** *[2];
+
+ 
+  m_eff2DFound_total_for = new TH2D("occupancyForwardXY", "r"+runNumberTString+":Forward XY Occupancy for total hits", 800, -400, 400, 800, -400, 400);
+  m_eff2DFound_total_back = new TH2D("occupancyBackwardXY", "r"+runNumberTString+":Backward XY Occupancy for total hits", 800, -400, 400, 800, -400, 400);
+  
+  
+  m_strips = new TBox*****[2];
+  m_stripsEff = new TBox*****[2];
+  m_hHitsPerLayer_trk = new TH1D*[2];
+  m_hHitsPerLayer_notrk = new TH1D*[2];
+  m_stripHits = new int**** [2];
+  m_stripHitsEff = new int**** [2];
+  m_hOccupancy1D = new TH1D** [2];
+  m_Strip = new HepGeom::Transform3D**** [2];
+
+  for(int cap=1;cap<=2;++cap)
+    { int nlay = m_ElementNumbers->getMaximalDetectorLayerNumber(cap);
+      m_cLayer[cap-1] = new TCanvas**[nlay];
+      m_cLayerEff[cap-1] = new TCanvas**[nlay];
+      m_cLayerEff2[cap-1] = new TCanvas*[nlay];
+      m_eff2DFound[cap-1] = new TH2D*[nlay];
+
+      m_strips[cap-1] = new TBox****[nlay];
+      m_stripsEff[cap-1] = new TBox****[nlay];
+      m_stripHits[cap-1] = new int***[nlay];
+      m_stripHitsEff[cap-1] = new int***[nlay];
+
+      m_hOccupancy1D[cap-1] = new TH1D *[nlay];
+      m_Strip[cap-1] = new HepGeom::Transform3D** *[nlay];
+      char buff1[100];
+      sprintf(buff1, "HitsPerLayer_with_trkRelation_Endcap%d", cap);
+      m_hHitsPerLayer_trk[cap-1] = new TH1D("HitsPerLayer", buff1, nlay, 0, nlay+1);
+      m_hHitsPerLayer_trk[cap-1]->SetFillColor(kBlack);
+      m_hHitsPerLayer_trk[cap-1]->SetFillStyle(3002);
+      sprintf(buff1, "HitsPerLayer_without_trkRelation_Endcap%d", cap);
+      m_hHitsPerLayer_notrk[cap-1] = new TH1D("HitsPerLayer", buff1, nlay, 0, nlay+1);
+      m_hHitsPerLayer_notrk[cap-1]->SetFillColor(kRed);
+      m_hHitsPerLayer_notrk[cap-1]->SetFillStyle(3002);
+
+      
+      
+      
+      for(int lay=1;lay<=nlay;++lay)
+	{ char buff[100];
+	  char label[200];
+	  char title[200];
+	  m_cLayer[cap-1][lay-1] = new TCanvas*[2];
+	  m_cLayerEff[cap-1][lay-1] = new TCanvas*[2];
+	  sprintf(buff, "Hit2Ds_efficiency Endcap %d Layer %d", cap, lay);
+	  m_cLayerEff2[cap-1][lay-1] = new TCanvas(buff, buff, 800, 800);
+	  //sprintf(buff, "FoundEff_Endcap_%d_Layer_%d", cap, lay);
+	  if (cap == 2) {
+	    sprintf(label, "occupancyForwardXY_Layer_%02d", lay);
+	    sprintf(title, "r"+runNumberTString+":Forward XY Occupancy for layer %02d hits", lay);
+	  } else {
+	    sprintf(label, "occupancyBackwardXY_Layer_%02d", lay);
+	    sprintf(title, "r"+runNumberTString+":Backward XY Occupancy for layer %02d hits", lay);
+	  }
+	  m_eff2DFound[cap-1][lay-1] = new TH2D(label, title, 800, -400, 400, 800, -400, 400);
+	  //m_eff2DFound[cap-1][lay-1] = new TH2D(buff, buff, 800, -400, 400, 800, -400, 400);
+	  //	  sprintf(buff, "ExpEff_Endcap_%d_Layer_%d", cap+1, lay+1);
+	  //	  m_eff2DExpected[cap][lay] = new TCanvas(buff, buff, 800, 800);
+	  m_strips[cap-1][lay-1] = new TBox***[2];
+	  m_stripsEff[cap-1][lay-1] = new TBox***[2];
+	  m_stripHits[cap-1][lay-1] = new int**[2];
+	  m_stripHitsEff[cap-1][lay-1] = new int**[2];
+	  //	  m_stripNonHitsEff[cap][lay] = new int***[2];
+	  sprintf(buff, "StripsOccupancy_Endcap_%d_Layer_%d", cap, lay);
+	  m_hOccupancy1D[cap-1][lay-1] = new TH1D(buff, buff, 600, 0, 600);
+	  m_Strip[cap-1][lay-1] = new HepGeom::Transform3D** [2];
+	  for(int plane=1;plane<=2;++plane)
+	    { sprintf(buff, "Layer1D_Endcap%d_Layer%d_Plane%d", cap, lay, plane);
+	      m_cLayer[cap-1][lay-1][plane-1] = new TCanvas(buff, buff, 800, 800);
+	      sprintf(buff, "Layer1DEff_Endcap%d_Layer%d_Plane%d", cap, lay, plane);
+	      m_cLayerEff[cap-1][lay-1][plane-1] = new TCanvas(buff, buff, 800, 800);
+	      m_strips[cap-1][lay-1][plane-1] = new TBox**[4];
+	      m_stripsEff[cap-1][lay-1][plane-1] = new TBox**[4];
+	      m_stripHits[cap-1][lay-1][plane-1] = new int*[4];
+	      m_stripHitsEff[cap-1][lay-1][plane-1] = new int*[4];
+	      //	      m_stripNonHitsEff[cap][lay][plane] =new int**[4];
+	      //	      m_hOccupancy1D[cap-1][lay-1][plane-1] = new TH1D *[4];
+	      m_Strip[cap-1][lay-1][plane-1] = new HepGeom::Transform3D*[4];
+	      for(int sec=1;sec<=4;++sec)	
+		{ m_strips[cap-1][lay-1][plane-1][sec-1] = new TBox*[75];
+		  m_stripsEff[cap-1][lay-1][plane-1][sec-1] = new TBox*[75];
+		  m_stripHits[cap-1][lay-1][plane-1][sec-1] = new int[75];
+		  m_stripHitsEff[cap-1][lay-1][plane-1][sec-1] = new int[75];
+		  //		  m_stripNonHitsEff[cap][lay][plane][sec] = new int[75];
+		  //  m_hOccupancy1D[cap-1][lay-1][plane-1][sec-1] = new TH1D();
+		  m_Strip[cap-1][lay-1][plane-1][sec-1] = new HepGeom::Transform3D[75];
+		  for(int strp=1;strp<=75;++strp)
+		    { int stripGlobal = m_ElementNumbers->stripNumber(cap, lay, sec, plane, strp);
+		      double l1 = m_GeoDat->getStripLength(stripGlobal);
+		      HepGeom::Point3D<double> s1_1(-0.5 * l1, 20.0, 0.0);
+		      HepGeom::Point3D<double> s1_2(0.5 * l1, -20.0, 0.0);
+		      
+		      //const HepGeom::Transform3D* tr1 = m_GeoDat->getStripTransform(&m_Strip[cap][lay][plane][sec][strp], strp);
+		      m_GeoDat->getStripTransform(&m_Strip[cap-1][lay-1][plane-1][sec-1][strp-1], strp);
+		      HepGeom::Transform3D* tr1 = &m_Strip[cap-1][lay-1][plane-1][sec-1][strp-1];
+		      HepGeom::Point3D<double> s1_1g = (*tr1) * s1_1;
+		      HepGeom::Point3D<double> s1_2g = (*tr1) * s1_2;
+		      m_strips[cap-1][lay-1][plane-1][sec-1][strp-1] = new TBox(s1_1g.x(), s1_1g.y(), s1_2g.x(), s1_2g.y());
+		      m_stripsEff[cap-1][lay-1][plane-1][sec-1][strp-1] = new TBox(s1_1g.x(), s1_1g.y(), s1_2g.x(), s1_2g.y());
+		      m_stripHits[cap-1][lay-1][plane-1][sec-1][strp-1] = 0;
+		      m_stripHitsEff[cap-1][lay-1][plane-1][sec-1][strp-1] = 0;
+		      //m_stripNonHitsEff[cap][lay][plane][sec][strp] = 0;		      
+		      
+		    }
+		}
+	    }
+	}
+    }
+  
+
+
+
+  
+  HitsPerLayerExpected = new TH1D("HitsPerLayer_Expected", "HitsPerLayer", 14, 0, 14);
+  //m_hHitsPerLayerExpected->SetFillColor(kYellow);
+  HitsPerLayerExpected->GetXaxis()->SetTitle("Expected number of Hits Per Layer");
+  
+  TracksPerEvent = new TH1D("TracksPerEvent", "TracksPerEvent", 10, 0, 10);
+  TracksPerEvent->SetFillColor(kYellow);
+  TracksPerEvent->GetXaxis()->SetTitle("Tracks Per Event");
+
+  HitsPerEvent1D = new TH1D("hitsPerEvent1D", "hitsPerEvent1D", 50, 0, 50);
+  HitsPerEvent1D->SetFillColor(kYellow);
+  HitsPerEvent1D->GetXaxis()->SetTitle("1D hits per event");
+  HitsPerEvent2D = new TH1D("hitsPerEvent2D", "hitsPerEvent2D", 50, 0, 50);
+  HitsPerEvent2D->SetFillColor(kYellow);
+  HitsPerEvent2D->GetXaxis()->SetTitle("2D hits per event");
+
+  HitsPerEventPerLayer1D = new TH2D("hitsPerLayer1D", "hitsPerLayer1D", 50, 0, 50, 14, 0, 14);
+  HitsPerEventPerLayer1D->GetXaxis()->SetTitle("#1D hits");
+  HitsPerEventPerLayer1D->GetYaxis()->SetTitle("layer");
+  
+  HitsRelTime = new TH1D("relTime", "Time to trigger", 100000, -50000, 50000);
+  
+}
+
+void EKLMStripEffModule::beginRun()
+{
+  
+}
+
+void EKLMStripEffModule::event()
+{
+  
+  m_eventCounter++;
+  if (!(m_eventCounter % 1000))
+    B2DEBUG(1, "looking at event -- " << m_eventCounter);
+  //  std::vector<EKLMDigit*> digitVector;
+  //  std::vector<EKLMDigit*>::iterator it1, it2;
+
+  HitsPerEvent1D->Fill(digits.getEntries());
+  int hitsPerLayer[14], maxSector, maxPlane, maxStrip, maxLayer;
+  //  memset(hitsPerLayer, 0, 14 * sizeof(int));
+  maxSector = m_ElementNumbers->getMaximalSectorNumber();
+  maxPlane = m_ElementNumbers->getMaximalPlaneNumber();
+  maxStrip = m_ElementNumbers->getMaximalStripNumber();
+
+  int n = m_Tracks.getEntries();
+  /*
+  for (int i = 0; i < n; i++) {
+    RelationVector<EKLMAlignmentHit> hits = m_Tracks[i]->getRelationsTo<EKLMAlignemntHit>();
+    int n2 = hits.getEntries();
+    for (int j = 0; j < n2; j++) {
+      if (hits[j]->getDigitIdentifier() != 0)
+	continue;
+      EKLMHit2d *hit2d = hits->getRelatedTo();
+    }
+    }*/
+  
+  
+  TracksPerEvent->Fill(n);
+  for (int i=0;i<digits.getEntries();++i)
+    { 
+      int encap, sector, layer, plane, strip;  
+      encap = digits[i]->getEndcap();
+      sector = digits[i]->getSector();
+      layer = digits[i]->getLayer();
+      plane = digits[i]->getPlane();
+      strip = digits[i]->getStrip();
+      maxLayer = m_ElementNumbers->getMaximalDetectorLayerNumber(encap);
+      if( sector < 1 || sector > maxSector )
+	{ B2DEBUG(1, "WRONG SECTOR NUMBER. Sector == "<< sector);
+	  continue;
+	}
+      if( layer < 1 || layer > maxLayer)
+	{ B2DEBUG(1, "WRONG LAYER NUMBER. Layer == " << layer);
+	  continue;
+	}
+      if (strip < 1 || strip > 75)
+	B2DEBUG(1, "WRONG STRIP NUMBER.(probably dummy firmware)) Strip == " << strip);
+      m_stripHits[encap-1][layer-1][plane-1][sector-1][strip-1]++;
+      const KLMDigitEventInfo * inf = digits[i]->getRelatedTo<KLMDigitEventInfo>();
+      
+      HitsRelTime->Fill(inf->getTriggerCTime()-digits[i]->getCTime());
+    }
+  double mean = -608;
+  double rms = 7.792;
+  
+  for (int i=0;i<digits.getEntries();++i) {
+    KLMDigitEventInfo * inf2 = digits[i]->getRelatedTo<KLMDigitEventInfo>();
+    double time = inf2->getTriggerCTime();
+    if (time < (mean - rms) || time > (mean + rms))
+      m_hHitsPerLayer_trk[digits[i]->getEndcap()-1]->Fill(digits[i]->getLayer()-1);
+    else
+      m_hHitsPerLayer_notrk[digits[i]->getEndcap()-1]->Fill(digits[i]->getLayer()-1);
+  }
+  for(int j=1;j<=maxLayer;++j)
+    { HitsPerEventPerLayer1D->Fill(hitsPerLayer[j-1], hit2ds.getEntries());
+      
+    }
+  
+  HitsPerEvent2D->Fill(hit2ds.getEntries());
+  Double_t gx,gy;
+  for (int j=0;j < hit2ds.getEntries();++j)
+    { 
+      int encap = hit2ds[j]->getEndcap();
+      int layer = hit2ds[j]->getLayer();
+      gx = hit2ds[j]->getPositionX();
+      gy = hit2ds[j]->getPositionY();
+      m_eff2DFound[encap-1][layer-1]->Fill(gx, gy);
+
+      if (encap == 1){m_eff2DFound_total_back->Fill(gx, gy);}
+      if (encap == 2){m_eff2DFound_total_for->Fill(gx, gy);}
+
+      //    m_hHitsPerLayer_trk[encap-1]->Fill(layer);
+
+    }
+  
+}
+
+
+void EKLMStripEffModule::endRun()
+{
+
+}
+
+void EKLMStripEffModule::terminate()
+{
+  int maxStripHits = 0;
+  for (int cap = 0; cap < 2; cap++)
+    { int nlay = m_ElementNumbers->getMaximalDetectorLayerNumber(cap+1);
+      for (int lay = 0; lay < nlay; lay++)
+	{ for (int plane = 0; plane < 2; plane++)
+	    { for (int sec = 0; sec < 4; sec++)
+		{ for (int strp = 0; strp < 75; strp++)
+		    { if (m_stripHits[cap][lay][plane][sec][strp] > maxStripHits)
+			maxStripHits = m_stripHits[cap][lay][plane][sec][strp];
+		      m_hOccupancy1D[cap][lay]->Fill(150*sec+75*plane+strp, m_stripHits[cap][lay][plane][sec][strp]);
+		    }
+		}
+	    }
+	}
+    }
+  
+  for (int cap = 0; cap < 2; cap++)
+    { int nlay = m_ElementNumbers->getMaximalDetectorLayerNumber(cap+1);
+      for (int lay = 0; lay < nlay; lay++)
+	{ for (int plane = 0; plane < 2; plane++)
+	    { m_cLayerEff[cap][lay][plane]->cd();
+	      for (int sec = 0; sec < 4; sec++)
+		{ for (int strp = 0; strp < 75; strp++)
+		    { 
+		      float colorIndex = m_stripHits[cap][lay][plane][sec][strp] / (float)maxStripHits;
+		      colorIndex = colorIndex * 48 + 51;
+		      m_strips[cap][lay][plane][sec][strp]->SetFillColor(ceil(colorIndex));
+		      m_strips[cap][lay][plane][sec][strp]->Draw("Same");
+		    }
+		}
+	      //m_cLayerEff[cap][lay][plane]->Write();
+	    }
+	  //	  m_cLayerEff2[cap][lay]->cd();
+	  //	  m_eff2DFound[cap][lay]->Draw("COLZ");
+	  //	  m_cLayerEff2[cap][lay]->Write();
+	  m_eff2DFound[cap][lay]->Write();
+	  m_hOccupancy1D[cap][lay]->Write();
+	}
+      m_hHitsPerLayer_trk[cap]->Write();
+      m_hHitsPerLayer_notrk[cap]->Write();
+    }
+  
+  //  HitsPerLayer->Write();
+  TracksPerEvent->Write();
+  HitsPerEvent1D->Write();
+  HitsPerEvent2D->Write();
+  HitsPerEventPerLayer1D->Write();
+  HitsRelTime->Write();
+  m_eff2DFound_total_back->Write();
+  m_eff2DFound_total_for->Write();
+  m_file->Write();
+  m_file->Close();
+  
+}
+
+
