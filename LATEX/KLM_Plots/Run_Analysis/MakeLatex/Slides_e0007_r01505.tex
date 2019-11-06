@@ -1,0 +1,57 @@
+\documentclass{beamer}
+    \mode<presentation> {
+    \usetheme{default}
+    \setbeamertemplate{footline}[page number] 
+    \setbeamertemplate{navigation symbols}{} 
+    }
+    \usepackage{graphicx}
+    \usepackage{booktabs}
+    \usepackage{amsmath}
+    \usepackage{slashed}
+    \usepackage{color}
+    \usepackage{rotating}
+    \usepackage{array}
+    \usepackage{varwidth}
+    \usepackage{pdfpages}
+    \usepackage{pgffor}
+    %----------------------------------------------------------------------------------------
+    %	TITLE PAGE 
+    % Caution: If you want to comment out then please use % (double percentage)
+    %----------------------------------------------------------------------------------------
+
+    \title{Analysis of KLM Run} % The short title appears at the bottom of every slide, the full title is only on the title page
+    \author{{\bf Atanu ~Pathak} \\}
+    \institute{\begin{minipage}{0.5\textwidth}\centering
+    \includegraphics[scale=0.1]{/afs/cern.ch/user/s/swaban/public/university-of-louisville-logo.png}
+    \end{minipage}}
+    \date {{KLM meeting}\\9 April 2019}
+    \begin{document}
+    \begin{frame}
+    \titlepage
+    \end{frame}
+    %------------------------------------------------
+%---------------
+    \begin{frame}
+    \frametitle{Short list of KLM plots}
+    \vspace*{.05cm}
+    \begin{center}
+    \begin{normalsize}
+    \vspace*{-.2cm}
+    \begin{center}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap_r01505/png/SectLayPlaneZBF}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap_r01505/png/SectLayPlanePhiBF}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r01505/occupancyForwardXYBkgd}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r01505/NRawKLM}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r01505/RawKLMnumNodes}\\
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap_r01505/png/SectLayPlaneZBB}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap_r01505/png/SectLayPlanePhiBB}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r01505/occupancyBackwardXYBkgd}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r01505/RawKLMnodeID}
+    \includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r01505/rawKLMlaneFlag} \\
+    
+    \end{center}
+    \end{normalsize}
+    \end{center}
+    \end{frame}
+    %---------------
+\end{document}
