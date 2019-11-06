@@ -1,0 +1,253 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+%\usepackage[greek,german]{babel}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{slashed}
+\usepackage{color}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{varwidth}
+\usepackage{pdfpages}
+\usepackage{pgffor}
+%\usepackage{textcomp}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Analysis of KLM Run} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+%\author{\underline{Author} \and Author} % Your name
+
+\author{{\bf Atanu ~Pathak} \\}
+%\author[The author]{The Author\\[2ex] \includegraphics[scale=0.25]{university-of-louisville-logo.png}}
+% and S.~Banerjee}
+
+%\institute{\small University of Louisville}
+\institute{\begin{minipage}{0.5\textwidth}\centering
+\includegraphics[scale=0.1]{/afs/cern.ch/user/s/swaban/public/university-of-louisville-logo.png}
+\end{minipage}}
+\date {{KLM meeting}\\9 April 2019}
+
+\begin{document}
+
+%\begin{frame}
+%\titlepage % Print the title page as the first slide
+%\end{frame}
+% ------------------------------------------------
+\begin{frame}
+\frametitle{Short list of KLM plots}
+\vspace*{.05cm}
+\begin{center}
+ %\begin{itemize}
+%\item { \small All events (left), Even events(Middle) and Odd events(Right)}
+%\end{itemize}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SectLayPlaneZBF}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SectLayPlanePhiBF}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r00355/occupancyForwardXYBkgd}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r00355/NRawKLM}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r00355/RawKLMnumNodes}\\
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SectLayPlaneZBB}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SectLayPlanePhiBB}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r00355/occupancyBackwardXYBkgd}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r00355/RawKLMnodeID}
+\includegraphics[width=.20\textwidth,height=.25\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/png-e0007r00355/rawKLMlaneFlag} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+
+% ----------------------------------------------
+\begin{frame}
+\frametitle{BF TDC (RPCs)}
+\vspace*{.05cm}
+\begin{center}
+ %\begin{itemize}
+%\item { \small All events (left), Even events(Middle) and Odd events(Right)}
+%\end{itemize}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF0}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF1}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF2}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF3} \\
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF4}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF5}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF6}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBF7}
+
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+% ----------------------------------------------
+\begin{frame}
+\frametitle{BB TDC (RPCs)}
+\vspace*{.05cm}
+\begin{center}
+ %\begin{itemize}
+%\item { \small All events (left), Even events(Middle) and Odd events(Right)}
+%\end{itemize}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB0}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB1}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB2}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB3} \\
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB4}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB5}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB6}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/RPCTdcBB7}
+
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+% ----------------------------------------------
+\begin{frame}
+\frametitle{BF TDC (Scintillator)}
+\vspace*{.05cm}
+\begin{center}
+ %\begin{itemize}
+%\item { \small All events (left), Even events(Middle) and Odd events(Right)}
+%\end{itemize}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF0}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF1}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF2}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF3} \\
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF4}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF5}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF6}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBF7}
+
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+% ----------------------------------------------
+\begin{frame}
+\frametitle{BB TDC (Scintillator)}
+\vspace*{.05cm}
+\begin{center}
+ %\begin{itemize}
+%\item { \small All events (left), Even events(Middle) and Odd events(Right)}
+%\end{itemize}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB0}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB1}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB2}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB3} \\
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB4}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB5}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB6}
+  \includegraphics[width=.25\textwidth,height=.30\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Run_Analysis/test_hitmap/png/SciTdcBB7}
+
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\end{document}
+%-------------------------------------------------

@@ -1,0 +1,558 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+%\usepackage[greek,german]{babel}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{slashed}
+\usepackage{color}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{varwidth}
+\usepackage{pdfpages}
+\usepackage{pgffor}
+%\usepackage{textcomp}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Analysis of Local KLM Run} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+%\author{\underline{Author} \and Author} % Your name
+
+\author{{\bf S.~Banerjee, D.~Biswas, D.N.~Brown, A.~Pathak} \\}
+%\author[The author]{The Author\\[2ex] \includegraphics[scale=0.25]{university-of-louisville-logo.png}}
+% and S.~Banerjee}
+
+%\institute{\small University of Louisville}
+\institute{\begin{minipage}{0.5\textwidth}\centering
+\includegraphics[scale=0.1]{/afs/cern.ch/user/s/swaban/public/university-of-louisville-logo.png}
+\end{minipage}}
+\date {{KLM meeting}\\19 Feb 2019}
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+% ------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{0.2cm}
+
+\begin{itemize} 
+\item {\small We took KLM local run on 9th Feb and 18th Feb for 1M and 5M events with Poisson trigger at 50kHz and 5kHz.}
+\item {\small Then we converted sroot files to root files and run bklm.py} 
+\item {\small  compare 18th Feb(left) with 9th Feb (Right) }
+\end{itemize}
+\begin{center}
+\vspace*{.1cm}
+{\scalebox{.50}{
+\begin{tabular}{lllllll}\hline\hline
+Local Run on  & Trigger & Frequency & Events & Program FEE & Prepare FTSW Chain & Run \\\hline
+9th Feb & Poisson & 50kHz & 1M & progfee\_All\_butBF2BB2.sh & prepft\_allButBF2.sh & run\_start\_mono\_AllButBF2.sh \\\hline
+18th Feb & Poisson & 5kHz & 5M & progfee\_All\_butBF2BB2.sh & prepft\_allButBF2.sh & run\_start\_mono\_AllButBF2.sh \\
+  &  &  &  & progfee.sh bf2 & prepft.sh bf2 & run\_start\_mono\_All.sh (Crash) \\
+\hline \hline
+\end{tabular}
+}}
+\end{center}
+\end{frame}
+% ----------------------------------------------
+\foreach \n in {1,...,9}{
+\begin{frame}
+\frametitle{Compare Plots}
+\vspace*{.05cm}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.5\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Local_Run/Slides/bklmPlots-190209.poisson.50kHz.1M.e0001r00001/bklmPlots-190209.poisson.50kHz.1M.e0001r00001-00\n}
+\includegraphics[width=.5\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/KLM_Plots/Local_Run/Slides/bklmPlots-19Feb2019.poisson.5kHz.5M.e0006r00001/bklmPlots-19Feb2019.poisson.5kHz.5M.e0006r00001-00\n} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+}
+%-------------------------------------------------
+\end{document}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{0.2cm}
+\begin{center}
+\begin{itemize}
+\item { \small Range of the values are:}
+\end{itemize}
+{\scalebox{.60}{
+\begin{tabular}{ll}\hline\hline
+Range &  \\\hline
+0 $\leq$  channel  $\leq$ 127 \\
+0$\leq$   axis        $\leq$ 1  \\
+0$\leq$   lane       $\leq$ 31 \\
+0$\leq$   ctime     $\leq$65535 \\
+0$\leq$   tdc         $\leq$ 2047 \\
+0$\leq$   charge    $\leq$ 4095 \\
+\hline \hline
+\end{tabular}
+}}
+\begin{itemize}
+\item { \small In our case range of the values are:}
+\end{itemize}
+\begin{minipage}{\textwidth}
+\begin{minipage}[c]{0.79\textwidth}
+\centering
+\includegraphics[width=.60\textwidth,height=.5\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/channel_vs_lane}\\
+\end{minipage}
+\hspace*{-1.8cm}
+\begin{minipage}[c]{0.19\textwidth}
+\centering
+\vspace*{0.6cm}
+\begin{table}
+{\scalebox{.50}{
+\begin{tabular}{ll}\hline\hline
+Range &  \\\hline
+ channel:  {25, 26, 28, 29, 30, 32, 33, 34, 36, 37, 38, 90} \\
+   axis:        {0,1}  \\
+   lane:      {1,2,8,13,16,20} \\
+0$\leq$   ctime     $\leq$12000 \\
+0$\leq$   tdc         $\leq$ 2047 \\
+0$\leq$   charge    $\leq$ 4095 \\
+\hline \hline
+\end{tabular}
+}}
+\end{table}
+\end{minipage}
+\end{minipage}
+\end{center}
+\end{frame}
+%---------------------------------------------------
+\begin{frame}
+\begin{center}
+\begin{Large}
+Looking at only 1 event, eg. EventNR = 3576
+\end{Large}
+\end{center}
+\end{frame}
+%----------------------------------------------
+\begin{frame}
+\frametitle{Distributions of tdc and ctime}
+\vspace*{.05cm}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/tdc_and_ctime} \\
+
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%----------------------------------------------
+\begin{frame}
+\frametitle{Plots for lane = 1 and lane = 2}
+\vspace*{.05cm}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/lane_1} \\
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/lane_2} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%----------------------------------------------
+\begin{frame}
+\frametitle{Plots for lane = 8 and lane = 13}
+\vspace*{.05cm}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/lane_8} \\
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/lane_13} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%----------------------------------------------
+\begin{frame}
+\frametitle{Plots for lane = 16 and lane = 20}
+\vspace*{.05cm}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/lane_16} \\
+\includegraphics[width=1.\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots_dipto/lane_20} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%----------------------------------------------
+\begin{frame}
+\begin{center}
+\begin{Large}
+Looking at all events
+\end{Large}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=0, lane = 1}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_1_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_1_0} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_1_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_1_0} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=1, lane = 1}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_1_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_1_1} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_1_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_1_1} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=0, lane = 2}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_2_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_2_0} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_2_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_2_0} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=1, lane = 2}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_2_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_2_1} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_2_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_2_1} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=0, lane = 8}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_8_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_8_0} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_8_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_8_0} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=1, lane = 8}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_8_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_8_1} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_8_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_8_1} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=0, lane = 13}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_13_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_13_0} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_13_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_13_0} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=1, lane = 13}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_13_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_13_1} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_13_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_13_1} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=0, lane = 16}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_16_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_16_0} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_16_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_16_0} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=1, lane = 16}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_16_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_16_1} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_16_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_16_1} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=0, lane = 20}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_20_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_20_0} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_20_0}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_20_0} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Plots for axis=1, lane = 20}
+\vspace*{.05cm}
+%\begin{itemize}
+%\item {\small }
+%\end{itemize}
+\begin{center}
+\begin{normalsize}
+
+\vspace*{-.2cm}
+\begin{center}
+
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_20_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_20_1} \\
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/tdc_channel_20_1}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/CSV_TO_ROOT/Plots/ctime_channel_20_1} \\
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\end{document}
+%-------------------------------------------------

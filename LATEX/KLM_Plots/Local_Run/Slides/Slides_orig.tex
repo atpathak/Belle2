@@ -1,0 +1,3514 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+%\usepackage[greek,german]{babel}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{slashed}
+\usepackage{color}
+\usepackage{rotating}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Benchmarking reconstruction times vs. pileup} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{\underline{Author} \and Author} % Your name
+
+\author{{\bf A.~Pathak} and S.~Banerjee}
+
+
+\institute[U. Louisville] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+
+
+\date{{Upgrade Tracking Meeting}\\\today\\} % Date, can be changed to a custom date
+
+\pgfdeclareimage[height=.75cm]{biglogo}{/afs/cern.ch/user/s/swaban/public/university-of-louisville-logo}
+\titlegraphic{\pgfuseimage{biglogo}} 
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{0.0cm}
+\begin{center}
+\begin{itemize}
+%\item This is concluding part of my authorship qualification task.
+\item Reconstruction times should preferably be benchmarked in a 
+ controlled environment and not in a shared cluster like LXPLUS. For 
+ this study, the reconstruction jobs were run  as sole user in time
+slots granted via dedicated run time requests.
+\item The cluster is Intel Xeon 7210, 1.3GHz 64-core CPU, 
+  116GB RAM, 200GB SSD disk, 5.5TB raid array (CentOS 7.3.1611).
+\item The jobs use $\sim$ 4 to 5 GB RAM. Up to 20 jobs were run in
+  parallel. Each job was configured to run on a single processor. 
+\item 1000 $t\bar{t}$ events are studied for 4 pile-up in ITk and 1 in Run2.
+%PBS-like batch system has been installed 
+%this week to automatize this configuration. But for the results
+%presented here, jobs were run interactively via nohup. Batch system 
+%will make future study easier.
+%\item Thanks to Dr.~Dang for installing ATLAS software using {\tt cvmfs} 
+  %    running with squid cache in our new clusters at UofL.
+\item {\bf HEP-SPEC06 score is 3.50 $\pm$ 0.15} (single core test),
+      averaged over 5 random sets of cores. For 32 (64) core tests, scores are 3.64 (3.34)/core,
+      consistent with single core tests.
+\end{itemize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{0.2cm}
+\begin{itemize}
+%\item This work is part of my authorship qualification task, which is
+  %work in progress
+%\item Reconstruction times should prefereably be benchmarked in
+  %a controlled environment, eg. uniform cpuEfficiency/job
+%\item Many thanks to Dr.~Dang for installing ATLAS software using {\tt
+  %  cvmfs} in the new computing clusters at UofL.
+%\item 1000 $t\bar{t}$ events are studied for 4 pile-up in ITk and 1 in Run2.
+\item {\small RAWtoESD output of 20 jobs run over 50 events and 1 event are studied and then 
+we subtract the total time used for 1 event from the time taken by 50 events.}% and divide 
+%the resulting time by 49 to get time taken per event.} % from 7 sets of jobs. Each set 
+ %consists of 30 jobs run over (1,2,5,10,20,50,100) events, respectively.
+\item The following 4 pile-up configurations for ITk are studied:
+\end{itemize}
+%\vspace*{.5cm}
+%\caption{Configuration}
+%\label{tab:config}
+\begin{center}
+{\scalebox{1.03}{
+\begin{tabular}{llll}\hline\hline
+Pile-up & Reco release & Reco flag & Input RDO  \\\hline
+$\langle \mu \rangle$ = 0    & 20.20.10.9    & AMI=r9877 & r-tag=9877 \\
+$\langle \mu \rangle$ = 60 & 20.20.10.9   & AMI=r9876 & r-tag=9876 \\
+$\langle \mu \rangle$ = 140         & 20.20.10.9    & AMI=r9875 & r-tag=9875 \\
+$\langle \mu \rangle$ = 200         & 20.20.10.9    & AMI=r9871 & r-tag=9871 \\
+\hline \hline 
+\end{tabular}
+}}
+\vspace*{.1cm}
+{\scriptsize{Samples: \url{mc15_14TeV.117050.PowhegPythia_P2011C_ttbar.recon.RDO.e2176_s3185_s3186_r9877/6/5/1}}}
+\vspace*{.1cm}
+\begin{itemize}
+\item The following 1 pile-up configurations for Run2 is studied:
+\end{itemize}
+\vspace*{.1cm}
+\begin{tabular}{llll}\hline\hline
+Pile-up & Reco release & Reco flag & Input RDO  \\\hline
+$\langle \mu \rangle$ = 20    & 20.7.5.1    & AMI=r7725 & r-tag=7725 \\
+\hline \hline
+\end{tabular}
+
+\vspace*{.1cm}
+{\scriptsize{Samples: \url{mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.recon.RDO.e3698_s2608_s2183_r7725}}}
+\vspace*{.1cm}
+\end{center}
+
+
+
+%\vspace*{-.35cm}
+%\begin{center}
+%All configurations use for seeding:
+%SiCombinatorialTrackFinderTool\_xk-01-00-34-06,
+%SiSpacePointsSeedTool\_xk-01-00-35-05, 
+%SiSPSeededTrackFinder-01-00-07
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for ITk studies r9871}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_AthAlgSeq_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_AthAlgSeq_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Si Track Finder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector (right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Ambiguity Solver}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector (right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetAmbiguitySolverSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetAmbiguitySolverSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Cluster Finding}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector (right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetBothClusterization_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetBothClusterization_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Space Point Finder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector (right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Track Particles}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector (right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetTrackParticles_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetTrackParticles_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Vertex Finder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detector (right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetPriVxFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetPriVxFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------------
+\begin{frame}
+\frametitle{Summary of results (in HS06 seconds)}
+\begin{itemize}
+\item {\small These studies were done on Intel Xeon 7210, 1.3GHz 64-core CPU. The CPU time is multiplied with the HS06 factor of 3.5 /sec.}
+\item Full Detector : 
+\end{itemize}
+\vspace*{-0.1cm} 
+\begin{table}
+
+{\scalebox{.45}{
+\begin{tabular}{|l|c||c|c|c|c|c|c||c|}\hline\hline
+                           
+Detector&  Pile &              Cluster           &             Space                 &         Si Track                      &         Ambiguity                &          TRT + Back            &           Primary                 &        total              \\ 
+             &  Up  &               Finding          &              Points                &         Finding                      &         Solution                    &           Tracking              &           Vertex                   &        ITk/ID            \\ \hline
+Run-2   & 20   &  1.5 $\pm$ 0.1            &  0.74 $\pm$ 0.03           &    22 $\pm$ 1.1                 & 15.4 $\pm$ 0.7                &      1.13 $\pm$ 0.1         &     0.51 $\pm$ 0.02        &                              \\\hline
+ITk        & 0     &  0.44 $\pm$ 0.02        &  0.15 $\pm$ 0.01           &   0.66 $\pm$ 0.03             &  8.5 $\pm$ 0.4                 &               $-$                   &     0.40 $\pm$ 0.02        &                              \\\hline
+ITk        & 60   &  7 $\pm$ 0.3               &  3.4 $\pm$ 0.2               &   11.0 $\pm$ 0.5               &  75 $\pm$ 3                     &               $-$                   &     1.7 $\pm$ 0.1            &                              \\\hline
+ITk        & 140 &  16 $\pm$ 0.7             &  12 $\pm$ 0.6                &   52 $\pm$ 2                     &  173 $\pm$ 8                   &               $-$                   &    4 $\pm$ 0.2                &                              \\\hline
+ITk        & 200 &  25.3 $\pm$ 1.1          &  23 $\pm$ 1.1                &   123 $\pm$ 5                   &  260 $\pm$ 11                 &               $-$                   &     6 $\pm$ 0.3               &                              \\\hline
+
+%ITk        & 140 &  16.2$\pm$ 0.71        &  12.2 $\pm$0.58             &   51.6$\pm$ 2.25              &  173.2$\pm$ 7.51           &               $-$                   &    4.17$\pm$0.189        &                              \\\hline
+%ITk        & 60   &  6.7$\pm$ 0.29          &  3.4 $\pm$0.15               &   11.0$\pm$ 0.49              &  75.1$\pm$ 3.28             &               $-$                   &     1.7$\pm$0.08        &                              \\\hline
+%ITk        & 0     &  0.44$\pm$ 0.02        &  0.15 $\pm$0.007           &   0.66$\pm$ 0.03              &  8.50$\pm$ 0.39             &               $-$                   &     0.40$\pm$0.021        &                              \\\hline
+%Run-2   & 20   &  1.46$\pm$0.066       &  0.74$\pm$0.034            &    22.1$\pm$1.097             & 15.4 $\pm$ 0.74            &      1.13$\pm$0.066       &     0.51 $\pm$0.023        &                              \\\hline
+\hline
+\end{tabular}
+}}
+\end{table}
+
+\vspace*{-0.1cm} 
+\begin{itemize}
+\item Inner Detector only : 
+\end{itemize}
+\begin{table}
+{\scalebox{.45}{
+\begin{tabular}{|l|c||c|c|c|c|c|c||c|}\hline\hline
+                           
+Detector&  Pile &              Cluster           &              Space                  &         Si Track                       &         Ambiguity               &          TRT + Back              &           Primary                &        total              \\ 
+             &  Up  &               Finding          &              Points                 &         Finding                        &         Solution                  &           Tracking                 &           Vertex                  &        ITk/ID            \\ \hline
+Run-2   & 20   &  1.5 $\pm$ 0.1            &  0.72 $\pm$ 0.03            &    21 $\pm$ 1.1                   & 14 $\pm$ 0.7                  &        0.1 $\pm$ 0.003      &     0.48 $\pm$ 0.02        &                              \\\hline
+ITk        & 0     &  0.43 $\pm$ 0.02        &  0.14 $\pm$ 0.01            &   0.65 $\pm$ 0.03               & 8 $\pm$ 0.4                    &               $-$                    &    0.39 $\pm$ 0.02         &                              \\\hline
+ITk        & 60   &  6.5 $\pm$ 0.3            &  3.4 $\pm$ 0.2                &   11.3 $\pm$ 0.5                 &  73 $\pm$ 3                    &               $-$                    &     1.7 $\pm$ 0.1            &                              \\\hline
+ITk        & 140 &  16 $\pm$ 0.7             &  12.4 $\pm$ 0.6              &   58 $\pm$ 3                       &  171 $\pm$ 7                  &               $-$                    &    4 $\pm$ 0.2                &                              \\\hline
+ITk        & 200 &  24.3 $\pm$ 1.0          &  21.5 $\pm$ 0.9              &   138 $\pm$ 6                     &  256 $\pm$ 11                &               $-$                    &     5.6 $\pm$ 0.2            &                              \\\hline
+\hline
+\end{tabular}
+}}
+\end{table}
+
+\vspace*{0.5cm} 
+
+\begin{itemize}
+\item {\small List of Algorithm Names :} 
+\end{itemize}
+\vspace*{-0.5cm} 
+\begin{table}
+
+{\scalebox{.33}{
+\begin{tabular}{|l|c||c|c|c|c|c|c||c|}\hline\hline
+                           
+Detector&  Pile &              Cluster                   &             Space                            &         Si Track                      &         Ambiguity               &          TRT + Back            &           Primary                 &        total              \\ 
+             &  Up  &               Finding                   &             Points                           &         Finding                      &         Solution                   &           Tracking               &           Vertex                  &        ITk/ID            \\ \hline
+ITk        & 200 &  InDetSCT\_Clusterization + &InDetSiTrackerSpacePointFinder&InDetSiSpTrackFinderSLHC &InDetAmbiguitySolverSLHC&               $-$                  &InDetPriVxFinder            &                              \\
+             &        &  InDetPixelClusterization        &                                                &                                           &                                           &               $-$                   &                                     &                              \\\hline
+Run-2   & 20 &  InDetSCT\_Clusterization + &InDetSiTrackerSpacePointFinder&InDetSiSpTrackFinder          &InDetAmbiguitySolver +                    & InDetTRT\_TrackSegmentsFinder+&InDetPriVxFinder&           \\
+             &        &  InDetPixelClusterization        &                                                &                                           & InDetAmbiguitySolverForwardTracks&InDetTRT\_SeededTrackFinder&    &                              \\\hline
+
+\hline
+\end{tabular}
+}}
+\end{table}
+\vspace*{1cm}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Benchmarking according to HEPSPEC06 for Full Detector}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.65\textwidth,height=.95\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/All_PileUp_log_new}
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Benchmarking according to HEPSPEC06 for Inner Detector}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.65\textwidth,height=.95\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/All_PileUp_log_new}
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Linearity Test for r9871}
+
+\begin{normalsize}
+\begin{itemize}
+\vspace*{-.5cm}
+\item 20 jobs run over for 1, 2, 5, 10, 20, 50, 100 events \\
+%\item Number events vs Fitted Mean of AthAlgSeq 
+%\vspace*{-.1cm}
+\begin{center}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_9Oct2017_r9871/AthAlgSeq_LinearFit_0} 
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_9Oct2017_r9871/AthAlgSeq_LinearFit_1}
+\end{center}
+%\item Number events vs Fitted Mean per event of AthAlgSeq
+
+\end{itemize}
+\end{normalsize}
+
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Stability Test for r9871}
+
+\begin{normalsize}
+\begin{itemize}
+\vspace*{-.5cm}
+\item 50 events run over in 10, 15, 20, 25, 30 jobs \\
+%\item Number events vs Fitted Mean of AthAlgSeq 
+%\vspace*{-.1cm}
+\begin{center}
+\includegraphics[width=.45\textwidth,height=.45\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_11Oct2017_r9871/AthAlgSeq_LinearFit_1} 
+
+\end{center}
+%\item Number events vs Fitted Mean per event of AthAlgSeq
+
+\end{itemize}
+\end{normalsize}
+
+\end{frame}
+\end{document}
+%---------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_AthAlgSeq_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_AthAlgSeq_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiSpTrackFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetSiSpTrackFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetSiSpTrackFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolver}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetAmbiguitySolver_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetAmbiguitySolver_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolverForwardTracks + InDetAmbiguitySolver}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetBothAmbiguitySolver_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetBothAmbiguitySolver_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for ForwardTrackingg}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetBothForwardTracking_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetBothForwardTracking_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for Back tracking}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetBothBackTracking_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetBothBackTracking_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for BothClusterization}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetBothClusterization_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetBothClusterization_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiTrackerSpacePointFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetPriVxFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725/pic/mydata_InDetPriVxFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r7725_ID/pic/mydata_InDetPriVxFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for ITk studies r9871}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_AthAlgSeq_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_AthAlgSeq_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiSpTrackFinderSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolverSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetAmbiguitySolverSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetAmbiguitySolverSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for BothClusterization}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetBothClusterization_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetBothClusterization_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiTrackerSpacePointFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetTrackParticles}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetTrackParticles_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetTrackParticles_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetPriVxFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetPriVxFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetPriVxFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetVxLinkSetter}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetVxLinkSetter_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetVxLinkSetter_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetRecStatistics}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetRecStatistics_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetRecStatistics_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetCaloClusterROISelector}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871/pic/mydata_InDetCaloClusterROISelector_49}
+%\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9871_ID/pic/mydata_InDetCaloClusterROISelector_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for ITk studies r9875}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_AthAlgSeq_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_AthAlgSeq_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiSpTrackFinderSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolverSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetAmbiguitySolverSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetAmbiguitySolverSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for BothClusterization}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetBothClusterization_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetBothClusterization_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiTrackerSpacePointFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetTrackParticles}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetTrackParticles_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetTrackParticles_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetPriVxFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetPriVxFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetPriVxFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetVxLinkSetter}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetVxLinkSetter_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetVxLinkSetter_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetRecStatistics}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetRecStatistics_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetRecStatistics_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetCaloClusterROISelector}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875/pic/mydata_InDetCaloClusterROISelector_49}
+%\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9875_ID/pic/mydata_InDetCaloClusterROISelector_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for ITk studies r9876}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_AthAlgSeq_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_AthAlgSeq_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiSpTrackFinderSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolverSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetAmbiguitySolverSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetAmbiguitySolverSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for BothClusterization}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetBothClusterization_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetBothClusterization_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiTrackerSpacePointFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetTrackParticles}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetTrackParticles_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetTrackParticles_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetPriVxFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetPriVxFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetPriVxFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetVxLinkSetter}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetVxLinkSetter_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetVxLinkSetter_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetRecStatistics}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetRecStatistics_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetRecStatistics_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetCaloClusterROISelector}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876/pic/mydata_InDetCaloClusterROISelector_49}
+%\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9876_ID/pic/mydata_InDetCaloClusterROISelector_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for ITk studies r9877}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_AthAlgSeq_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_AthAlgSeq_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiSpTrackFinderSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetSiSpTrackFinderSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolverSLHC}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetAmbiguitySolverSLHC_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetAmbiguitySolverSLHC_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for BothClusterization}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetBothClusterization_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetBothClusterization_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiTrackerSpacePointFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetSiTrackerSpacePointFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetTrackParticles}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetTrackParticles_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetTrackParticles_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetPriVxFinder}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetPriVxFinder_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetPriVxFinder_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetVxLinkSetter}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetVxLinkSetter_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetVxLinkSetter_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetRecStatistics}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetRecStatistics_49}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetRecStatistics_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetCaloClusterROISelector}
+\begin{center}
+\begin{normalsize}
+Full Detector (left)  and Inner Detectro(right) \\
+\vspace*{-.2cm}
+\begin{center}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877/pic/mydata_InDetCaloClusterROISelector_49}
+%\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_6Oct2017_r9877_ID/pic/mydata_InDetCaloClusterROISelector_49}
+
+\end{center}
+\end{normalsize}
+\end{center}
+\end{frame}
+%----------------------
+\end{document}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{0.0cm}
+\begin{center}
+\begin{itemize}
+\item This is concluding part of my authorship qualification task.
+\item Reconstruction times should preferably be benchmarked in a 
+ controlled environment and not in a shared cluster like LXPLUS. For 
+ this study, the reconstruction jobs were run  as sole user in time
+slots granted via dedicated run time requests.
+\item The cluster is Intel Xeon 7210, 1.3GHz 64-core CPU, 
+  116GB RAM, 200GB SSD disk, 5.5TB raid array (CentOS 7.3.1611).
+\item The jobs use $\sim$ 4 to 5 GB RAM. Up to 20 jobs were run in
+  parallel. Each job was configured to run on a single processor. 
+%PBS-like batch system has been installed 
+%this week to automatize this configuration. But for the results
+%presented here, jobs were run interactively via nohup. Batch system 
+%will make future study easier.
+\item Thanks to Dr.~Dang for installing ATLAS software using {\tt cvmfs} 
+      running with squid cache in our new clusters at UofL.
+\item {\bf HEP-SPEC06 score is 3.50 $\pm$ 0.15} (single core test),
+      averaged over 5 random sets of cores. For 32 (64) core tests, scores are 3.64 (3.34)/core,
+      consistent with single core tests.
+\end{itemize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{0.2cm}
+\begin{itemize}
+%\item This work is part of my authorship qualification task, which is
+  %work in progress
+%\item Reconstruction times should prefereably be benchmarked in
+  %a controlled environment, eg. uniform cpuEfficiency/job
+%\item Many thanks to Dr.~Dang for installing ATLAS software using {\tt
+  %  cvmfs} in the new computing clusters at UofL.
+\item 1000 $t\bar{t}$ events are studied for 4 pile-up in ITk and 1 in Run2
+\item RAWtoESD output of 20 jobs run over 50 events are studied. % from 7 sets of jobs. Each set 
+ %consists of 30 jobs run over (1,2,5,10,20,50,100) events, respectively.
+\item The following 4 pile-up configurations for ITk are studied:
+\end{itemize}
+%\vspace*{.5cm}
+%\caption{Configuration}
+%\label{tab:config}
+\begin{center}
+\begin{tabular}{llll}\hline\hline
+Pile-up & Reco release & Reco flag & Input RDO  \\\hline
+$\langle \mu \rangle$ = 0    & 20.20.10.7    & AMI=r9877 & r-tag=9877 \\
+$\langle \mu \rangle$ = 60 & 20.20.10.7    & AMI=r9876 & r-tag=9876 \\
+$\langle \mu \rangle$ = 140         & 20.20.10.7    & AMI=r9875 & r-tag=9875 \\
+$\langle \mu \rangle$ = 200         & 20.20.10.7    & AMI=r9871 & r-tag=9871 \\
+\hline \hline
+\end{tabular}
+
+\vspace*{.1cm}
+{\scriptsize{Samples: \url{mc15_14TeV.117050.PowhegPythia_P2011C_ttbar.recon.RDO.e2176_s3185_s3186_r9877/6/5/1}}}
+\vspace*{.1cm}
+\begin{itemize}
+\item The following 1 pile-up configurations for Run2 is studied:
+\end{itemize}
+\vspace*{.2cm}
+\begin{tabular}{llll}\hline\hline
+Pile-up & Reco release & Reco flag & Input RDO  \\\hline
+$\langle \mu \rangle$ = 20    & 20.7.5.1    & AMI=r7725 & r-tag=7725 \\
+\hline \hline
+\end{tabular}
+
+\vspace*{.1cm}
+{\scriptsize{Samples: \url{mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.recon.RDO.e3698_s2608_s2183_r7725}}}
+\vspace*{.1cm}
+\end{center}
+
+
+
+%\vspace*{-.35cm}
+%\begin{center}
+%All configurations use for seeding:
+%SiCombinatorialTrackFinderTool\_xk-01-00-34-06,
+%SiSpacePointsSeedTool\_xk-01-00-35-05, 
+%SiSPSeededTrackFinder-01-00-07
+%\end{center}
+
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for Run 2 studies}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq (release 20.7.5.1)}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%\flushleft{} \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_25Sep2017_r7725_1/pic/mydata_AthAlgSeq_50} 
+\includegraphics[width=.55\textwidth,height=.40\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/s/swaban/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/Slides/ATLASTPG_Reco_20170509_pg4}
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{.3cm}
+Our mean fitted time shown in left plot: 69.13 sec, 69.13*3.5 = 241.955 HS06 sec compares well with 20*12.5 = 250 sec from right plot by A. Lomosani (9 May 2017).
+(\url{https://indico.cern.ch/event/638331/contributions/2586818/attachments/1456568/2247978/ATLASTPG_Reco_20170509.pdf}).
+ {\textcolor{red} {Updated after private email communication with Antonio Limosani : aibuild010.cern.ch (the PMB benchmark machine) has 150.74/12 cores =12.5 HEPSPEC per core}}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for different algorithms}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+InDetPixelClusterization (left)  and InDetSCTClusterization(right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_25Sep2017_r7725_1/pic/mydata_AthAlgSeq_50} 
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_25Sep2017_r7725_1/pic/mydata_InDetPixelClusterization_50}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_25Sep2017_r7725_1/pic/mydata_InDetSCTClusterization_50}
+\\
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for ITk studies}
+\end{Large}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for AthAlgSeq}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for $\langle \mu \rangle$ =0 (left) and 60 (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9877/pic/mydata_AthAlgSeq_50} 
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9876/pic/mydata_AthAlgSeq_50}
+
+%\item Time (minute) / event 
+
+for $\langle \mu \rangle$ = 140 (left) and 200 (right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9875/pic/mydata_AthAlgSeq_50}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/pic/mydata_AthAlgSeq_50}
+
+
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSiSpTrackFinderSLHC}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for $\langle \mu \rangle$ = 0 (left) and 60 (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9877/pic/mydata_InDetSiSpTrackFinderSLHC_50} 
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9876/pic/mydata_InDetSiSpTrackFinderSLHC_50}
+
+%\item Time (minute) / event 
+
+for $\langle \mu \rangle$ = 140 (left) and 200 (right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9875/pic/mydata_InDetSiSpTrackFinderSLHC_50}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/pic/mydata_InDetSiSpTrackFinderSLHC_50}
+
+
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetAmbiguitySolverSLHC}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for $\langle \mu \rangle$ = 0 (left) and 60 (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9877/pic/mydata_InDetAmbiguitySolverSLHC_50} 
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9876/pic/mydata_InDetAmbiguitySolverSLHC_50}
+
+%\item Time (minute) / event 
+
+for $\langle \mu \rangle$ = 140 (left) and 200 (right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9875/pic/mydata_InDetAmbiguitySolverSLHC_50}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/pic/mydata_InDetAmbiguitySolverSLHC_50}
+
+
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetPixelClusterization}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for $\langle \mu \rangle$ = 0 (left) and 60 (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9877/pic/mydata_InDetPixelClusterization_50} 
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9876/pic/mydata_InDetPixelClusterization_50}
+
+%\item Time (minute) / event 
+
+for $\langle \mu \rangle$ = 140 (left) and 200 (right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9875/pic/mydata_InDetPixelClusterization_50}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/pic/mydata_InDetPixelClusterization_50}
+
+
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times/event (seconds) for InDetSCTClusterization}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for $\langle \mu \rangle$ = 0 (left) and 60 (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9877/pic/mydata_InDetSCTClusterization_50} 
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9876/pic/mydata_InDetSCTClusterization_50}
+
+%\item Time (minute) / event 
+
+for $\langle \mu \rangle$ = 140 (left) and 200 (right) \\
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9875/pic/mydata_InDetSCTClusterization_50}
+\includegraphics[width=.40\textwidth,height=.40\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/pic/mydata_InDetSCTClusterization_50}
+
+
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Benchmarking according to HEPSPEC06}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.65\textwidth,height=.95\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/All_PileUp_log}
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Summary of results (in HS06 seconds)}
+\begin{itemize}
+\item ITk
+\end{itemize}
+\vspace*{-0.5cm} 
+\begin{table}
+
+{\scalebox{.65}{
+\begin{tabular}{l|cccc}\hline\hline
+                           & \multicolumn {4}{c} {$\langle \mu \rangle$} \\
+\cline{2-5}         & 0                & 60               & 140              & 200               \\ \hline
+AthAlgSeq & 44.97 $\pm$ 0.56 & 249.04 $\pm$ 3.21 & 721.87 $\pm$ 9.84 & 1073.10 $\pm$ 8.00 \\ \hline
+InDetAmbiguitySolverSLHC & 8.79 $\pm$ 0.11 & 77.17 $\pm$ 0.69 & 180.99 $\pm$ 1.39 & 261.98 $\pm$ 1.74 \\ \hline
+InDetSiSpTrackFinderSLHC & 0.66 $\pm$ 0.01 & 10.94 $\pm$ 0.14 & 52.71 $\pm$ 0.63 & 119.96 $\pm$ 1.48 \\ \hline
+InDetPixelClusterization & 0.32 $\pm$ 0.00 & 5.51 $\pm$ 0.08 & 14.06 $\pm$ 0.13 & 21.68 $\pm$ 0.13 \\ \hline 
+InDetSCTClusterization & 0.13 $\pm$ 0.00 & 1.27 $\pm$ 0.02 & 2.34 $\pm$ 0.05 & 3.01 $\pm$ 0.05 \\ \hline
+\hline
+\end{tabular}
+}}
+\end{table}
+
+\begin{itemize}
+\item Run2
+\end{itemize}
+\vspace*{0.2cm}
+\begin{table}
+
+{\scalebox{.80}{
+\begin{tabular}{l|c}\hline\hline
+                          &  $\langle \mu \rangle$ = 20 \\\hline
+AthAlgSeq & 241.97 $\pm$ 4.81 \\ \hline
+InDetPixelClusterization & 0.72 $\pm$ 0.01 \\ \hline 
+InDetSCTClusterization & 0.64 $\pm$ 0.01 \\ \hline
+\hline
+\end{tabular}
+}}
+
+\end{table}
+
+\vspace*{1cm}
+\end{frame}
+\end{document}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Benchmarking according to HEPSPEC06}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.65\textwidth,height=.65\textheight,type=pdf,ext=.pdf,read=.pdf]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_19Sep2017_r9871/All_PileUp_linear}
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{cpuEfficiency vs \# of events for Nominal (r9060) }
+\vspace*{0.1cm}
+%\begin{center}
+\begin{normalsize}
+\begin{itemize}
+\begin{small}
+\item cpuEfficiency is an attribute in the {\texttt{jobReport.json}} file.
+  It refers to fraction of time spent {\it{processing} } each event 
+  normalized to total time in {\it{accessing~I/O~and~processing}} the event.
+\item Left plot shows scatter-plot. Middle plot shows profile. Right
+  plot shows fit : log(cpuEfficiency) = $p_0$ + $p_1$  log(N) + $p_2 $  [log(N)]$^2$
+\end{small}
+\end{itemize}
+%\item Time (minute) / event 
+%For (left to right)\\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{0.05cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/CpuEfficiency_r9060} 
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/CpuEfficiency_r9060_new}
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/CpuEfficiency_r9060_old_1}
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.2cm}
+\begin{small}
+The rms (shown by blue error bars in middle and right plots) for 1 event-jobs is
+2.5\%, for 10 event-jobs it is 1.2\% and for 50 event-jobs it is
+0.2\%. This is a measure of the systematic variation over each
+set of 30 jobs and validates the claim that {\bf{all jobs are run in
+a well controlled environment with uniform cpuEfficiency per job}}.
+For $\geq$ 20 events, cpuEfficiency of $\geq$ 90\% is reached.
+\end{small}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{cpuEfficiency vs \# of events for Long Strips (r9133) }
+\vspace*{0.1cm}
+%\begin{center}
+\begin{normalsize}
+\begin{itemize}
+\begin{small}
+\item cpuEfficiency is an attribute in the {\texttt{jobReport.json}} file.
+  It refers to fraction of time spent {\it{processing} } each event 
+  normalized to total time in {\it{accessing~I/O~and~processing}} the event.
+\item Left plot shows scatter-plot. Middle plot shows profile. Right
+  plot shows fit : log(cpuEfficiency) = $p_0$ + $p_1$  log(N) + $p_2 $  [log(N)]$^2$  
+\end{small}
+\end{itemize}
+%\item Time (minute) / event 
+%For (left to right)\\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{0.05cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/CpuEfficiency_r9133} 
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/CpuEfficiency_r9133_new}
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/CpuEfficiency_r9133_old_1}
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.2cm}
+\begin{small}
+The rms (shown by blue error bars in middle and right plots) for 1 event-jobs is
+3.4\%, for 10 event-jobs it is 1.3\% and for 50 event-jobs it is
+0.2\%. This is a measure of the systematic variation over each
+set of 30 jobs and validates the claim that {\bf{all jobs are run in
+a well controlled environment with uniform cpuEfficiency per job}}.
+For $\geq$ 20 events, cpuEfficiency of $\geq$ 90\% is reached.  
+\end{small}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{cpuEfficiency vs \# of events for BCL (r9139) }
+\vspace*{0.1cm}
+%\begin{center}
+\begin{normalsize}
+\begin{itemize}
+\begin{small}
+\item cpuEfficiency is an attribute in the {\texttt{jobReport.json}} file.
+  It refers to fraction of time spent {\it{processing} } each event 
+  normalized to total time in {\it{accessing~I/O~and~processing}} the event.
+\item Left plot shows scatter-plot. Middle plot shows profile. Right
+  plot shows fit : log(cpuEfficiency) = $p_0$ + $p_1$  log(N) + $p_2 $  [log(N)]$^2$   
+\end{small}
+\end{itemize}
+%\item Time (minute) / event 
+%For (left to right)\\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{0.05cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/CpuEfficiency_r9139} 
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/CpuEfficiency_r9139_new}
+\includegraphics[width=.35\textwidth,height=.35\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/CpuEfficiency_r9139_old_1}
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.2cm}
+\begin{small}
+The rms (shown by blue error bars in middle and right plots) for 1 event-jobs is
+2.2\%, for 10 event-jobs it is 1.2\% and for 50 event-jobs it is
+0.3\%. This is a measure of the systematic variation over each
+set of 30 jobs and validates the claim that {\bf{all jobs are run in
+a well controlled environment with uniform cpuEfficiency per job}}.
+For $\geq$ 20 events, cpuEfficiency of $\geq$ 90\% is reached.  
+\end{small}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{huge}
+\centerline{Reconstruction times for AthAlgSeq}
+\end{huge}
+\end{frame}
+%-------------------------------------------------
+\begin{frame}
+\frametitle{Times (minutes) for AthAlgSeq for Nominal (r9060)}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_AthAlgSeq_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (minutes)  for AthAlgSeq for Nominal (r9060)}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right:
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.03583) from last fit $\sim$  Max - Min (= 0.011) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+
+\end{normalsize}
+\end{frame}
+%--------------------------------------------------
+\begin{frame}
+\frametitle{AthAlgSeq times (minutes) for Nominal, LS and BCL}
+\vspace*{1cm}
+\begin{table}
+\begin{center}
+{\scalebox{.9}{
+\begin{tabular}{lccc}\hline\hline
+Fit $[{\mathrm{From}}, {\mathrm {To}}]$     & Nominal                     & Long strips           & BCL \\ \hline
+$[1, 100]$                            & 6.339$\pm$0.03473 & 6.571$\pm$0.03696 & 6.319$\pm$0.03871\\
+$[2, 100]$                            & 6.337$\pm$0.03499 & 6.564$\pm$0.0371  &  6.307$\pm$0.03916\\
+$[5, 100]$                            & 6.333$\pm$0.03524 & 6.556$\pm$0.03739 & 6.296$\pm$0.03961\\
+{\textcolor{red}{$[10, 100]$}} & {\textcolor{red} {6.328$\pm$ 0.03583} }&  {\textcolor{red} {6.548$\pm$0.03791} } & {\textcolor{red} {6.285$\pm$0.0409}} \\
+\hline \hline
+\end{tabular}
+}}
+\end{center}
+\end{table}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for InDetSiSpTrackFinderSLHC}
+\end{Large}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetSiSpTrackFinderSLHC Nominal}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_5} 
+
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right)\\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSiSpTrackFinderSLHC_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetSiSpTrackFinderSLHC for Nominal}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.005973) from last fit $\sim$ Max - Min (= 0.006) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%--------------------------------------------------
+\begin{frame}
+\frametitle{InDetSiSpTrackFinderSLHC times (min) for Nominal, LS and BCL}
+\vspace*{1cm}
+\begin{table}
+\begin{center}
+{\scalebox{.9}{
+\begin{tabular}{lccc}\hline\hline
+Fit $[{\mathrm{From}}, {\mathrm {To}}]$     & Nominal                     & Long strips           & BCL \\ \hline
+$[1, 100]$                            & 1.181$\pm$0.005608 & 1.397$\pm$0.007079 & 1.167$\pm$0.004952\\
+$[2, 100]$                            & 1.184$\pm$0.005686 & 1.396$\pm$0.007103  &  1.167$\pm$0.004978\\
+$[5, 100]$                            & 1.185$\pm$0.005755 & 1.395$\pm$0.007151 & 1.166$\pm$0.00501\\
+{\textcolor{red}{$[10, 100]$}} & {\textcolor{red} {1.187$\pm$ 0.005973} }&  {\textcolor{red} {1.398$\pm$0.007364} } & {\textcolor{red} {1.165$\pm$0.005104}} \\
+\hline \hline
+\end{tabular}
+}}
+\end{center}
+\end{table}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for InDetAmbiguitySolverSLHC}
+\end{Large}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetAmbiguitySolverSLHC for Nominal}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right)\\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetAmbiguitySolverSLHC_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetAmbiguitySolverSLHC for Nominal}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.001345) from last fit $\sim$ Max - Min (= 0.002) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%--------------------------------------------------
+\begin{frame}
+\frametitle{InDetAmbiguitySolverSLHC times (min) for Nominal, LS and BCL}
+\vspace*{1cm}
+\begin{table}
+\begin{center}
+{\scalebox{.9}{
+\begin{tabular}{lccc}\hline\hline
+Fit $[{\mathrm{From}}, {\mathrm {To}}]$     & Nominal                     & Long strips           & BCL \\ \hline
+$[1, 100]$                            & 0.3327$\pm$0.001166 & 0.3376$\pm$0.001077 & 0.3338$\pm$0.001071\\
+$[2, 100]$                            & 0.3336$\pm$0.001238 & 0.3375$\pm$0.001085  &  0.3338$\pm$0.001085\\
+$[5, 100]$                            & 0.334$\pm$0.001269 & 0.3377$\pm$0.001103 & 0.3337$\pm$0.001101\\
+{\textcolor{red}{$[10, 100]$}} & {\textcolor{red} {0.3347$\pm$ 0.001345} }&  {\textcolor{red} {0.3379$\pm$0.001137} } & {\textcolor{red} {0.3339$\pm$0.001144}} \\
+\hline \hline
+\end{tabular}
+}}
+\end{center}
+\end{table}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for InDetSCT\_Clusterization}
+\end{Large}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (Sec) for InDetSCT\_Clusterization for Nominal}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (Second) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right)\\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_5} 
+
+%\item Time (Second) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/pic/mydata_InDetSCTClusterization_100}  
+\end{center}
+%\item \\
+\begin{small}
+There is also a 2$^{nd}$ peak around 1 sec (from pathological events).
+\end{small}
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (Sec) for InDetSCT\_Clusterization for Nominal}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.001428) from last fit $\sim$  Max - Min (=0.0016 ) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+
+\end{normalsize}
+\end{frame}
+%--------------------------------------------------
+\begin{frame}
+\frametitle{InDetSCT\_Clusterization times (Sec) for Nominal, LS and BCL}
+\vspace*{1cm}
+\begin{table}
+\begin{center}
+{\scalebox{.9}{
+\begin{tabular}{lccc}\hline\hline
+Fit $[{\mathrm{From}}, {\mathrm {To}}]$     & Nominal                     & Long strips           & BCL \\ \hline
+$[1, 100]$                            & 0.8073$\pm$0.001411 & 0.8006$\pm$0.001209 & 0.8129$\pm$0.001399\\
+$[2, 100]$                            & 0.8063$\pm$0.001417 & 0.8$\pm$0.001212  &  0.8117$\pm$0.001405\\
+$[5, 100]$                            & 0.806$\pm$0.001421 & 0.7996$\pm$0.001216 & 0.8109$\pm$0.00141\\
+{\textcolor{red}{$[10, 100]$}} & {\textcolor{red} {0.8057$\pm$ 0.001428} }&  {\textcolor{red} {0.7994$\pm$0.001216} } & {\textcolor{red} {0.8107$\pm$0.001418}} \\
+\hline \hline
+\end{tabular}
+}}
+\end{center}
+\end{table}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Summary of results}
+\begin{table}
+\begin{center}
+{\scalebox{.69}{
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & Nominal  & Long strips & BCL  \\\hline
+AthAlgSeq:Execute(min)  &  6.328$\pm$ 0.03583 & 6.548$\pm$0.03791 & 6.285$\pm$0.0409    \\ 
+InDetSiSpTrackFinderSLHC:Execute(min) &1.187$\pm$0.005973 & 1.398$\pm$0.007364 & 1.165$\pm$0.005104  \\ 
+InDetAmbiguitySolverSLHC:Execute(min) &0.3347$\pm$0.001345 & 0.3379$\pm$0.001137 & 0.3339$\pm$0.001144\\
+InDetSCT\_Clusterization:Execute(sec)    & 0.8057$\pm$0.001428 & 0.7994$\pm$0.001216  & 0.8107$\pm$0.001418\\\hline \hline
+\end{tabular}
+}}
+\end{center}
+\end{table}
+
+\vspace*{1cm}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{\begin{normalsize} Conclusion and Outlook \end{normalsize}}
+
+%\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+\begin{small}
+\item Setup in place to benchmark performance in controlled
+ environment. For jobs with $\geq$ 10 events, variations of 
+performance in terms of cpuEfficiency are 
+$\sim$ 1\%. For 50 events, variations are $\sim$ 0.2\%.
+\item Studied reconstruction times for Nominal, Long Strip and BCL configurations\\
+\item Looked at "Execute" times for 4 different algorithms : AthAlgSeq,
+  InDetSiSpTrackFinderSLHC,  InDetAmbiguitySolverSLHC and
+  InDetSCT\_Clusterization \\
+\item Studied 7 sets of jobs , with 30 runs per job. 7 sets correspond
+  to 1, 2, 5, 10, 20, 50 and 100 events. Stable results obtained for
+  sets with $\geq$ 10 events. In future, may use more than 30 runs per set.
+\item Batch system installed in our cluster: will make future studies easier.
+\item Future plans are to study timing as function of pileup\\
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{center}
+\begin{Huge}
+\centerline{Back up Slides}
+\end{Huge}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{huge}
+\centerline{Reconstruction times for AthAlgSeq}
+\end{huge}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for AthAlgSeq for Long Strips}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100 events(left to right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_AthAlgSeq_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (minutes) for AthAlgSeq for Long Strips}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right:
+ \end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.03791) from last fit $\sim$  Max - Min (= 0.023) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (minutes)  for AthAlgSeq for BCL (r9139)}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1,  2,  5  events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_5} 
+%\item Time (minute) / event  
+
+for 30 sets of jobs, each over 10,  20,  50,  100 events (left to right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_AthAlgSeq_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (minutes) for AthAlgSeq for BCL (r9139)}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right:
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.0409) from last fit $\sim$  Max - Min (= 0.034) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for InDetSiSpTrackFinderSLHC}
+\end{Large}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetSiSpTrackFinderSLHC for Long Strips}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right)\\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSiSpTrackFinderSLHC_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetSiSpTrackFinderSLHC for Long Strips}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.007364) from last fit $\sim$ Max - Min (= 0.003) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) forInDetSiSpTrackFinderSLHC for BCL (r9139)}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right)\\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSiSpTrackFinderSLHC_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetSiSpTrackFinderSLHC for BCL (r9139)}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.005104) from last fit $\sim$ Max - Min (= 0.002) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for InDetAmbiguitySolverSLHC}
+\end{Large}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetAmbiguitySolverSLHC for Long Strips}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right)\\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetAmbiguitySolverSLHC_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetAmbiguitySolverSLHC for Long Strips}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.001137) from last fit $\sim$ Max - Min (=0.0004) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (min) for InDetAmbiguitySolverSLHC for BCL (r9139)}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_5} 
+%\item Time (minute) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right)\\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetAmbiguitySolverSLHC_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{For InDetAmbiguitySolverSLHC for BCL (r9139)}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.001144) from last fit $\sim$ Max - Min (= 0.0002) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\begin{Large}
+\centerline{Reconstruction times for InDetSCT\_Clusterization}
+\end{Large}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (Sec) for InDetSCT\_Clusterization for Long Strips}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (Second) / event  
+for 30 sets of jobs, each over 1, 2, 5 events (left to right)\\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_5} 
+
+%\item Time (Second) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/pic/mydata_InDetSCTClusterization_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (Sec) for InDetSCT\_Clusterization for Long Strips}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.001216) from last fit $\sim$  Max - Min (=0.0012 ) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (Sec) for InDetSCT\_Clusterization for BCL (r9139)}
+
+\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (Second) / event 
+for 30 sets of jobs, each over 1, 2, 5 events (left to right)\\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.2cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_1} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_2}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_5} 
+
+%\item Time (Second) / event 
+
+for 30 sets of jobs, each over 10, 20, 50, 100  events (left to right) \\
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_10}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_20}
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_50} 
+\includegraphics[width=.22\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/pic/mydata_InDetSCTClusterization_100}  
+\end{center}
+%\item \\
+%\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Times (Sec) for InDetSCT\_Clusterization for BCL(r9139)}
+\begin{normalsize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item The following plots show (fitted mean and fitted error ) / per event as function of NumberOfEvents
+\item Fits to a constant value for [1 to 100], [2 to 100], [5 to 100]
+  and [10 to 100] events, respectively, are shown below from left to right: 
+\end{small}
+\end{itemize}
+\vspace*{0.2cm}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit_1} 
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit_2}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit_5}
+\includegraphics[width=.27\textwidth,height=.3\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit_10} 
+\begin{itemize}
+\begin{small}
+\item Error (0.001418) from last fit $\sim$  Max - Min (=0.0022 ) of
+  fitted means from the 4 sets of fits $\Rightarrow$ no additional 
+  systematic error.
+\end{small}
+\end{itemize}
+\end{normalsize}
+\end{frame}
+%------------------------------------------------
+\end{document}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events for InDetSiSpTrackFinderSLHC for Nominal (r9)}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit} 
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit}
+\end{center}
+%\item Time (minute) / event
+%\begin{small} 
+%For InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+%\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit} 
+
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetSiSpTrackFinderSLHC 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events for InDetAmbiguitySolverSLHC for Nominal (r9060)}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit}
+%\end{center}
+%\item Time (minute) / event
+%\begin{small} 
+%For InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+\begin{center}
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit} 
+
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetAmbiguitySolverSLHC 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%-----------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events for InDetSCT\_Clusterization for Nominal (r9060)}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSiSpTrackFinderSLHC_LinearFit}
+%\end{center}
+%\item Time (minute) / event
+%\begin{small} 
+%For InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+\begin{center}
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetAmbiguitySolverSLHC_LinearFit}
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9060/InDetSCTClusterization_LinearFit} 
+
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetSCT\_Clusterization 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in Long Strips(r9133) for AthAlgSeq}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit}
+\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+%\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit} 
+
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for AthAlgSeq 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in Long Strips(r9133) for InDetSiSpTrackFinderSLHC}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit} 
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit}
+\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+%\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit} 
+
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetSiSpTrackFinderSLHC 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in Long Strips(r9133) for InDetAmbiguitySolverSLHC}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit}
+%\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+\begin{center}
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit} 
+
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetAmbiguitySolverSLHC 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in Long Strips(r9133) for InDetSCT\_Clusterization}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSiSpTrackFinderSLHC_LinearFit}
+%\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetAmbiguitySolverSLHC_LinearFit}
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9133/InDetSCTClusterization_LinearFit} 
+
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetSCT\_Clusterization 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in BCL(r9139) for AthAlgSeq}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit}
+\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+%\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit} 
+
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for AthAlgSeq 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in BCL(r9139) for InDetSiSpTrackFinderSLHC}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit} 
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit}
+\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+%\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit} 
+
+%\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetSiSpTrackFinderSLHC 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in BCL(r9139) for InDetAmbiguitySolverSLHC}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit}
+%\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+\begin{center}
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit} 
+
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetAmbiguitySolverSLHC 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Fitted mean per event vs Number of events in BCL(r9139) for InDetSCT\_Clusterization}
+
+%\begin{center}
+\begin{normalsize}
+
+%\begin{itemize}
+
+%\item Time (minute) / event 
+%For AthAlgSeq (left)  and InDetSiSpTrackFinderSLHC (right) \\
+%\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-0.6cm}
+%\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+%\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/AthAlgSeq_LinearFit} 
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSiSpTrackFinderSLHC_LinearFit}
+%\end{center}
+%\item Time (minute) / event 
+%\begin{small} 
+%for InDetAmbiguitySolverSLHC(left) and InDetSCT\_Clusterization(right)\\
+%\end{small}
+\begin{center}
+%\includegraphics[width=.44\textwidth,height=.32\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetAmbiguitySolverSLHC_LinearFit}
+\includegraphics[width=.55\textwidth,height=.42\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/ALLTXT_22May2017_r9139/InDetSCTClusterization_LinearFit} 
+
+\end{center}
+%\item \\
+%\end{itemize}
+\vspace*{-0.6cm}
+\begin{itemize}
+\begin{small}
+\item This plot shows that the linear distribution between Number of events
+  and Fitted mean/event for InDetSCT\_Clusterization 
+\item The probability for the p0 fit is less than the p1 fit that
+  indicates p0 is the best fit as compared to p1 
+\item Since p0 is the best fit, we can conclude that Total Time taken
+  per event is independent of the number of events.  
+%\item The following 3 different configurations are studied:
+\end{small}
+\end{itemize}
+\end{normalsize}
+%\end{center}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{\begin{normalsize} Summary \end{normalsize}}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Work in progress to benchmark reconstruction times\\
+
+\item Looked at four different Algorithm for 30 sets jobs for 7 sets
+  of events \\
+
+\item CpuEfficiency increases as we increase the number of events
+
+\item Total Time taken per event does not depend on the number of events. 
+
+\item Preparing to produce the plots of the cpu time taken at different mu-values\\
+
+\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\end{document}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Introduction}
+\vspace*{1cm}
+\begin{itemize}
+%\item This work is part of my authorship qualification task, which is
+  %work in progress
+\item Reconstruction times should prefereably be benchmarked in
+  a controlled environment, eg. uniform cpuEfficiency/job
+\item Many thanks to Dr.~Dang for installing ATLAS software using {\tt
+    cvmfs} in the new computing clusters at UofL.
+\item This study compares RAWtoESD output run over RDO files 
+\item The following 3 different configurations are studied:
+\end{itemize}
+%\vspace*{.5cm}
+\begin{table}
+%\caption{Configuration}
+%\label{tab:config}
+\begin{center}
+\begin{tabular}{llll}\hline\hline
+Description & Reco release & Reco flag & Input RDO  \\\hline
+Nominal     & 20.20.7.4    & AMI=r9060 & r-tag=8832 \\
+Long strips & 20.20.7.6    & AMI=r9133 & r-tag=9133 \\
+BCL         & 20.20.7.8    & AMI=r9139 & r-tag=9139 \\
+\hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\vspace*{-.25cm}
+\begin{center}
+All 3 configurations use for seeding:
+SiCombinatorialTrackFinderTool\_xk-01-00-34-06,
+SiSpacePointsSeedTool\_xk-01-00-35-05, 
+SiSPSeededTrackFinder-01-00-07
+\end{center}
+
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Reconstruction times for AthAlgSeq}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Time (minute) / event for 20 sets of jobs, each over 50 events \\
+\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item \\
+%\item \\
+\vspace*{-.5cm}
+\begin{center}
+%\item For r9060(left) and For r9133(right) \\
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_AthAlgSeq_r9060} 
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_AthAlgSeq_r9133}
+ \includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_AthAlgSeq_r9139} 
+\end{center}
+%\item \\
+\end{itemize}
+\end{normalsize}
+
+\end{center}
+%\vspace*{1cm}
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+AthAlgSeq:Execute                &  6.185  & 6.522   & 6.41   \\\hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+ 
+
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Reconstruction times for InDetSiSpTrackFinderSLHC}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Time (minute) / event for 20 sets of jobs, each over 50 events \\
+\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item  \\
+%\item \\
+%\item \\
+\vspace*{-.5cm}
+\begin{center}
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetSiSpTrackFinderSLHC_r9060} 
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetSiSpTrackFinderSLHC_r9133}
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetSiSpTrackFinderSLHC_r9139} 
+\end{center}
+%\item \\
+\end{itemize}
+\end{normalsize}
+
+\end{center}
+%\vspace*{1cm}
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+InDetSiSpTrackFinderSLHC:Execute & 1.127  & 1.377  & 1.155  \\\hline \hline 
+\end{tabular}
+\end{center}
+\end{table}
+
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Reconstruction times for InDetAmbiguitySolverSLHC}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Time (minute) / event for 20 sets of jobs, each over 50 events \\
+\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item  \\
+%\item \\
+%\item \\
+\vspace*{-.5cm}
+\begin{center}
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetAmbiguitySolverSLHC_r9060} 
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetAmbiguitySolverSLHC_r9133}
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetAmbiguitySolverSLHC_r9139} 
+\end{center}
+%\item \\
+\end{itemize}
+\end{normalsize}
+
+\end{center}
+
+%\vspace*{1cm}
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+InDetAmbiguitySolverSLHC:Execute & 0.325  & 0.3375  & 0.335   \\\hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Reconstruction times for InDetSCT\_Clusterization}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Time (second) / event for 20 sets of jobs, each over 50 events \\
+\item Timing for r9060 [left], r9133 [center] and r9139 [right]\\
+%\item  \\
+%\item \\
+%\item \\
+\vspace*{-.5cm}
+\begin{center}
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetSCTClusterization_r9060} 
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetSCTClusterization_r9133}
+\includegraphics[width=.32\textwidth,height=.4\textheight,type=png,ext=.png,read=.png]{/afs/cern.ch/user/a/atpathak/afswork/public/Pixel/Plots_11May_2016/pic/mydata_InDetSCTClusterization_r9139} 
+\end{center}
+%\item \\
+\end{itemize}
+\end{normalsize}
+
+\end{center}
+
+%\vspace*{1cm}
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+InDetSCT\_Clusterization:Execute & 0.7933 & 0.8413 & 0.8592 \\\hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{\begin{normalsize} Summary \end{normalsize}}
+
+\vspace*{1cm}
+\begin{itemize} 
+\item Time per event from study over 1000 events : 20 jobs of 50 events each \\
+\end{itemize}
+\vspace*{.25cm}
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+AthAlgSeq:Execute(min)  &  6.185  & 6.522   & 6.41   \\ 
+InDetSiSpTrackFinderSLHC:Execute(min) & 1.127  & 1.377  & 1.155  \\ 
+InDetAmbiguitySolverSLHC:Execute(min) & 0.325  & 0.3375  & 0.335  \\
+InDetSCT\_Clusterization:Execute(sec) & 0.7933 & 0.8413 & 0.8592 \\\hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\vspace*{1cm}
+
+\end{frame}
+%------------------------------------------------
+\end{document}
+%------------------------------------------------
+\begin{frame}
+\frametitle{\begin{normalsize} Summary \end{normalsize}}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Work in progress to benchmark reconstruction times\\
+
+\item Looked at four different Algorithm for 20 sets of 50 events jobs \\
+
+%\item Cannot yet make firm conclusion in the trend observed
+
+%\item Large variations are seen in 2 sets of jobs [50 events each]\\
+
+%\item Preparing to run 20 sets of jobs [50 events each] \& average\\
+
+\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\end{document}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Reconstruction times}
+
+\vspace*{1cm}  
+Average time (seconds) per event for job \# 2 run over 50 events
+
+\vspace*{1cm}  
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+AthAlgSeq:Execute                &  365  & 340   & 366   \\ 
+InDetSiSpTrackFinderSLHC:Execute & 68.5  & 75.2  & 67.0  \\ 
+InDetAmbiguitySolverSLHC:Execute & 18.8  & 18.1  & 19.1  \\
+InDetSCT\_Clusterization:Execute & 0.789 & 0.757 & 0.794 \\ \hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\vspace*{1cm}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Reconstruction times}
+
+\vspace*{1cm} 
+Average time (seconds) per event averaged over 100 events
+
+\vspace*{1cm}
+\begin{table}
+%\caption{Time Taken}
+%\label{tab:Time}
+\begin{center}
+\begin{tabular}{lccc}\hline\hline
+Algorithm                        & r9060 & r9133 & r9139 \\\hline
+AthAlgSeq:Execute                &  381  & 365   & 383.5 \\ 
+InDetSiSpTrackFinderSLHC:Execute & 69.6  & 79.1  & 67.8  \\ 
+InDetAmbiguitySolverSLHC:Execute & 19.8  & 18.6  & 19.0  \\
+InDetSCT\_Clusterization:Execute & 0.874 & 0.767 & 0.794 \\\hline \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\vspace*{1cm}
+\end{frame}
+%------------------------------------------------
+\begin{frame}
+\frametitle{\begin{normalsize} Summary \end{normalsize}}
+
+\begin{center}
+\begin{normalsize}
+
+\begin{itemize}
+
+\item Work in progress to benchmark reconstruction times\\
+
+\item Cannot yet make firm conclusion in the trend observed
+
+\item Large variations are seen in 2 sets of jobs [50 events each]\\
+
+\item Preparing to run 20 sets of jobs [50 events each] \& average\\
+
+\end{itemize}
+\end{normalsize}
+\end{center}
+\end{frame}
+%------------------------------------------------
+\end{document}
+%------------------------------
